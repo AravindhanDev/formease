@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer utilities {
+    .box-custom {
+        display: grid;
+        place-items: center;
+        width: 180px;
+        height: 130px;
+        margin-bottom: 0.5rem;
+    }
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #F1F3F4;
+}
