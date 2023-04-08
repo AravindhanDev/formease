@@ -13,7 +13,7 @@ interface SideBoxLayoutProps {
 function SideBoxLayout({ children, color }: SideBoxLayoutProps) {
     return (
         <div
-            className={`mb-5 border-l-8 shadow-lg rounded-md border-${color}-600 bg-white p-7`}
+            className={`mb-5 border-l-8 shadow-lg rounded-md border-${color}-600 bg-white p-5 sm:p-7`}
             style={{ borderColor: color === "red" ? "#ED4444" : "#9333EA" }}
         >
             {children}

@@ -19,7 +19,7 @@ function InputOption() {
     const dispatch = useContext(ReducerContext)
 
     return (
-        <div className="absolute right-40 top-12 bg-white p-4 xs:p-2 rounded shadow-lg">
+        <div className="absolute sm:right-40 w-52 top-12 bg-white p-4 xs:p-2 rounded shadow-lg">
             <ul className="text-gray-600">
                 <li
                     onMouseDown={(event) => {

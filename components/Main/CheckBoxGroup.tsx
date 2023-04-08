@@ -106,26 +106,32 @@ function CheckBoxGroup({ index, value, required }: CheckBoxGroupProps) {
                         />
                     )
                 })}
+                <a
+                    onClick={addOption}
+                    className="inline sm:hidden bg-purple-100 p-2  xs:text-sm rounded-md mx-2 text-purple-700 cursor-pointer font-normal"
+                >
+                    <AddIcon /> <span>option</span>
+                </a>
             </div>
 
             <hr />
 
-            <div className="mt-3 text-right">
+            <div className="mt-5 sm:mt-3 text-right">
                 <a
                     onClick={addOption}
-                    className="bg-purple-100 p-2 rounded-md mx-2 text-purple-700 cursor-pointer font-normal"
+                    className="sm:inline hidden bg-purple-100 sm:p-2 xs:p-1  xs:text-sm rounded-md mx-2 text-purple-700 cursor-pointer font-normal"
                 >
-                    <AddIcon /> option
+                    <AddIcon /> <span>option</span>
                 </a>
 
                 <span
                     className="cursor-pointer border-x-4 px-2"
                     onClick={deleteQuestion}
                 >
-                    <DeleteOutlinedIcon className="text-gray-500 text-3xl" />
+                    <DeleteOutlinedIcon className="text-gray-500 sm:text-3xl xs:text-2xl" />
                 </span>
 
-                <span className="mx-2 px-2">
+                <span className="mx-2 px-2 xs:text-sm">
                     Required
                     <Switch
                         checked={isCheck}
@@ -144,6 +150,3 @@ function CheckBoxGroup({ index, value, required }: CheckBoxGroupProps) {
 }
 
 export default CheckBoxGroup
-function setRadioButtonItems(arg0: (prevItems: string[]) => string[]) {
-    throw new Error("Function not implemented.")
-}
