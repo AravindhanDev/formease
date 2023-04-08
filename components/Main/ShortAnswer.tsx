@@ -15,15 +15,10 @@ interface ShortAnswerProps {
 function ShortAnswer({ index, value, required }: ShortAnswerProps) {
     const [isCheck, setCheck] = useState(required)
     const [answer, setAnswer] = useState("")
-    const state = useContext(FormStateContext)
     const dispatch = useContext(ReducerContext)
     const [color, setColor] = useState(() => {
         return isCheck ? "red" : "purple"
     })
-
-    useEffect(() => {
-        console.log("in short answer", state)
-    }, [state])
 
     useEffect(() => {
         dispatch({
