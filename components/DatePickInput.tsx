@@ -10,7 +10,7 @@ interface InputProps {
 function DatePickInput(props: InputProps) {
     return (
         <input
-            className={`mb-4 ${props.size} border-b-2 border-grey-200 w-full focus:outline-none focus:border-purple-600 transition-colors duration-500`}
+            className={`mb-4 ${props.size} border-b-2 text-gray-700 border-grey-200 w-full focus:outline-none focus:border-purple-600 transition-colors duration-500`}
             type={props.type}
             value={props.value}
             onChange={props.onChange}
