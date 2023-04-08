@@ -4,17 +4,37 @@ import { SideBoxLayout } from "./BoxLayout"
 import Input from "../Input"
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined"
 import Switch from "@mui/material/Switch"
-import { ReducerContext } from "../FormStateProvider"
+import { FormStateContext, ReducerContext } from "../FormStateProvider"
 
 interface ShortAnswerProps {
     index: number
     value: string
+    required: boolean
 }
 
-function ShortAnswer({ index, value }: ShortAnswerProps) {
-    const [isCheck, setCheck] = useState(false)
+function ShortAnswer({ index, value, required }: ShortAnswerProps) {
+    const [isCheck, setCheck] = useState(required)
     const [answer, setAnswer] = useState("")
+    const state = useContext(FormStateContext)
     const dispatch = useContext(ReducerContext)
+    const [color, setColor] = useState(() => {
+        return isCheck ? "red" : "purple"
+    })
+
+    useEffect(() => {
+        console.log("in short answer", state)
+    }, [state])
+
+    useEffect(() => {
+        dispatch({
+            type: "UPDATE_QUESTION",
+            payload: {
+                index: index,
+                key: "required",
+                value: isCheck,
+            },
+        })
+    }, [isCheck, dispatch, index])
 
     useEffect(() => {
         dispatch({
@@ -31,14 +51,18 @@ function ShortAnswer({ index, value }: ShortAnswerProps) {
         setAnswer(event.target.value)
     }
 
+    function deleteItem() {
+        dispatch({ type: "DELETE_QUESTION", payload: { index } })
+    }
+
     return (
-        <SideBoxLayout>
+        <SideBoxLayout color={color}>
             <div>
                 <InputVariant1
                     index={index}
                     value={value}
                     type="text"
-                    placeholder="Question"
+                    placeholder={isCheck ? "Question *" : "Question"}
                 />
             </div>
             <div>
@@ -51,15 +75,24 @@ function ShortAnswer({ index, value }: ShortAnswerProps) {
                 />
             </div>
             <div className="text-right">
-                <span className="cursor-pointer border-r-4 px-2">
+                <span
+                    className="cursor-pointer border-r-4 px-2"
+                    onClick={deleteItem}
+                >
                     <DeleteOutlinedIcon className="text-gray-500 text-3xl" />
                 </span>
 
                 <span className="mx-2 px-2">
                     Required
                     <Switch
-                        onClick={() => setCheck((prev) => !prev)}
-                        color="default"
+                        checked={isCheck}
+                        onClick={() => {
+                            setCheck((prev) => !prev)
+                            setColor((prevColor) => {
+                                return prevColor === "purple" ? "red" : "purple"
+                            })
+                        }}
+                        color="secondary"
                     />
                 </span>
             </div>

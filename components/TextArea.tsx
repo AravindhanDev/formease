@@ -14,7 +14,7 @@ function TextArea(props: TextAreaProps) {
             rows={isFocused ? 3 : 1}
             onFocus={() => setFocused(true)}
             onBlur={() => setFocused(false)}
-            className="text-base resize-none border-b-2 border-grey-200 w-full focus:outline-none focus:border-purple-600 transition-colors duration-500"
+            className="text-base resize-none border-b-2 text-gray-700 border-grey-200 w-full focus:outline-none focus:border-purple-600 transition-colors duration-500"
             {...props}
         ></textarea>
     )

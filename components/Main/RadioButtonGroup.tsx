@@ -4,6 +4,7 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined"
 import Switch from "@mui/material/Switch"
 import RadioButton from "./RadioButton"
 import { FormStateContext, ReducerContext } from "../FormStateProvider"
+import AddIcon from "@mui/icons-material/Add"
 import React, {
     useState,
     useContext,
@@ -15,13 +16,17 @@ import React, {
 interface RadioButtonGroupProps {
     index: number
     value: string
+    required: boolean
 }
 
-function RadioButtonGroup({ index, value }: RadioButtonGroupProps) {
+function RadioButtonGroup({ index, value, required }: RadioButtonGroupProps) {
+    const [isCheck, setCheck] = useState(required)
     const state = useContext(FormStateContext)
     const dispatch = useContext(ReducerContext)
+    const [color, setColor] = useState(() => {
+        return isCheck ? "red" : "purple"
+    })
     const [answer, setAnswer] = useState("")
-    const [isCheck, setCheck] = useState(false)
     const [radioButtonItems, setRadioButtonItems] = useState<string[]>([
         "New Option",
     ])
@@ -75,14 +80,18 @@ function RadioButtonGroup({ index, value }: RadioButtonGroupProps) {
         })
     }
 
+    function deleteQuestion() {
+        dispatch({ type: "DELETE_QUESTION", payload: { index } })
+    }
+
     return (
-        <SideBoxLayout>
+        <SideBoxLayout color={color}>
             <div>
                 <InputVariant1
                     type="text"
                     value={value}
-                    placeholder="Question"
                     index={index}
+                    placeholder={isCheck ? "Question *" : "Question"}
                 />
             </div>
 
@@ -100,26 +109,36 @@ function RadioButtonGroup({ index, value }: RadioButtonGroupProps) {
                         />
                     )
                 })}
-                <a
-                    className="text-purple-700 cursor-pointer font-normal"
-                    onClick={addOption}
-                >
-                    Add option
-                </a>
             </div>
 
             <hr />
 
             <div className="mt-3 text-right">
-                <span className="cursor-pointer border-r-4 px-2">
+                <a
+                    onClick={addOption}
+                    className="bg-purple-100 p-2 rounded-md mx-2 text-purple-700 cursor-pointer font-normal"
+                >
+                    <AddIcon /> option
+                </a>
+
+                <span
+                    className="cursor-pointer border-r-4 px-2"
+                    onClick={deleteQuestion}
+                >
                     <DeleteOutlinedIcon className="text-gray-500 text-3xl" />
                 </span>
 
                 <span className="mx-2 px-2">
                     Required
                     <Switch
-                        onClick={() => setCheck((prev) => !prev)}
-                        color="default"
+                        checked={isCheck}
+                        onClick={() => {
+                            setCheck((prev) => !prev)
+                            setColor((prevColor) =>
+                                prevColor === "purple" ? "red" : "purple"
+                            )
+                        }}
+                        color="secondary"
                     />
                 </span>
             </div>

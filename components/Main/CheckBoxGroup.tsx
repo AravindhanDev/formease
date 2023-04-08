@@ -10,18 +10,23 @@ import { SideBoxLayout } from "./BoxLayout"
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined"
 import Switch from "@mui/material/Switch"
 import CheckBox from "./CheckBox"
-import { FormStateContext, ReducerContext } from "../FormStateProvider"
+import { ReducerContext } from "../FormStateProvider"
+import AddIcon from "@mui/icons-material/Add"
 
 interface CheckBoxGroupProps {
     index: number
     value: string
+    required: boolean
 }
 
-function CheckBoxGroup({ index, value }: CheckBoxGroupProps) {
+function CheckBoxGroup({ index, value, required }: CheckBoxGroupProps) {
     const dispatch = useContext(ReducerContext)
-    const [isCheck, setCheck] = useState(false)
+    const [isCheck, setCheck] = useState(required)
     const [answers, setAnswers] = useState<string[]>([])
     const [checkBoxItems, setCheckBoxItems] = useState<string[]>(["New Option"])
+    const [color, setColor] = useState(() => {
+        return isCheck ? "red" : "purple"
+    })
 
     useEffect(() => {
         dispatch({
@@ -64,6 +69,10 @@ function CheckBoxGroup({ index, value }: CheckBoxGroupProps) {
         setCheckBoxItems((prevItems) => [...prevItems, "New Option"])
     }
 
+    function deleteQuestion() {
+        dispatch({ type: "DELETE_QUESTION", payload: { index } })
+    }
+
     function deleteItem(id: number) {
         setCheckBoxItems((prevItems: string[]) => {
             return prevItems.filter(
@@ -73,12 +82,12 @@ function CheckBoxGroup({ index, value }: CheckBoxGroupProps) {
     }
 
     return (
-        <SideBoxLayout>
+        <SideBoxLayout color={color}>
             <div>
                 <InputVariant1
                     type="text"
                     value={value}
-                    placeholder="Question"
+                    placeholder={isCheck ? "Question *" : "Question"}
                     index={index}
                 />
             </div>
@@ -97,27 +106,36 @@ function CheckBoxGroup({ index, value }: CheckBoxGroupProps) {
                         />
                     )
                 })}
-
-                <a
-                    onClick={addOption}
-                    className="text-purple-700 cursor-pointer font-normal"
-                >
-                    Add option
-                </a>
             </div>
 
             <hr />
 
             <div className="mt-3 text-right">
-                <span className="cursor-pointer border-r-4 px-2">
+                <a
+                    onClick={addOption}
+                    className="bg-purple-100 p-2 rounded-md mx-2 text-purple-700 cursor-pointer font-normal"
+                >
+                    <AddIcon /> option
+                </a>
+
+                <span
+                    className="cursor-pointer border-x-4 px-2"
+                    onClick={deleteQuestion}
+                >
                     <DeleteOutlinedIcon className="text-gray-500 text-3xl" />
                 </span>
 
                 <span className="mx-2 px-2">
                     Required
                     <Switch
-                        onClick={() => setCheck((prev) => !prev)}
-                        color="default"
+                        checked={isCheck}
+                        onClick={() => {
+                            setCheck((prev) => !prev)
+                            setColor((prevColor) =>
+                                prevColor === "purple" ? "red" : "purple"
+                            )
+                        }}
+                        color="secondary"
                     />
                 </span>
             </div>
@@ -126,3 +144,6 @@ function CheckBoxGroup({ index, value }: CheckBoxGroupProps) {
 }
 
 export default CheckBoxGroup
+function setRadioButtonItems(arg0: (prevItems: string[]) => string[]) {
+    throw new Error("Function not implemented.")
+}

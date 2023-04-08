@@ -1,4 +1,4 @@
-export interface RadioInput {
+interface RadioInput {
     index: number
     element: string
     type: string
@@ -8,7 +8,7 @@ export interface RadioInput {
     answer: string
 }
 
-export interface CheckBoxInput {
+interface CheckBoxInput {
     index: number
     element: string
     type: string
@@ -18,7 +18,7 @@ export interface CheckBoxInput {
     answer: string[]
 }
 
-export interface TextInput {
+interface TextInput {
     index: number
     element: string
     type: string
@@ -27,7 +27,7 @@ export interface TextInput {
     answer: string
 }
 
-export interface TextArea {
+export interface DateInput {
     index: number
     element: string
     type: string
@@ -36,7 +36,31 @@ export interface TextArea {
     answer: string
 }
 
-type Questions = TextInput | TextArea | RadioInput | CheckBoxInput
+export interface TimeInput {
+    index: number
+    element: string
+    type: string
+    question: string
+    required: boolean
+    answer: string
+}
+
+interface TextArea {
+    index: number
+    element: string
+    type: string
+    question: string
+    required: boolean
+    answer: string
+}
+
+type Questions =
+    | TextInput
+    | TextArea
+    | RadioInput
+    | CheckBoxInput
+    | DateInput
+    | TimeInput
 
 interface FormInitialState {
     title: string
@@ -97,6 +121,21 @@ function reducer(state: any, action: any) {
                 ...state,
                 questionCount: state.questionCount + 1,
                 questions: [...state.questions, question],
+            }
+
+        case "DELETE_QUESTION":
+            const questions = state.questions.filter(
+                (question: Questions, index: number) => {
+                    return index !== action.payload.index
+                }
+            )
+
+            console.log(questions)
+
+            return {
+                ...state,
+                questionCount: state.questionCount - 1,
+                questions,
             }
 
         case "UPDATE_QUESTION":

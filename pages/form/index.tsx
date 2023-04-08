@@ -1,18 +1,17 @@
-import { FormStateContext } from "@/components/FormStateProvider"
-import CheckBoxGroup from "@/components/Main/CheckBoxGroup"
+import { useContext, useEffect } from "react"
 import Header from "@/components/Main/Header"
 import Navbar from "@/components/Main/Navbar"
+import { FormStateContext } from "@/components/FormStateProvider"
+import CheckBoxGroup from "@/components/Main/CheckBoxGroup"
 import Paragraph from "@/components/Main/Paragraph"
 import RadioButtonGroup from "@/components/Main/RadioButtonGroup"
 import ShortAnswer from "@/components/Main/ShortAnswer"
-import { useContext, useEffect } from "react"
+import DatePick from "@/components/Main/DatePick"
+import TimePick from "@/components/Main/TimePick"
+import { DateInput, TimeInput } from "@/components/FormJson"
 
 function Home() {
     const state = useContext(FormStateContext)
-
-    useEffect(() => {
-        console.log(state)
-    }, [state])
 
     return (
         <>
@@ -29,6 +28,7 @@ function Home() {
                                             key={index}
                                             index={index}
                                             value={question.question}
+                                            required={question.required}
                                         />
                                     )
                                 } else if (
@@ -39,6 +39,7 @@ function Home() {
                                             key={index}
                                             index={index}
                                             value={question.question}
+                                            required={question.required}
                                         />
                                     )
                                 } else if (
@@ -50,6 +51,29 @@ function Home() {
                                             key={index}
                                             index={index}
                                             value={question.question}
+                                            required={question.required}
+                                        />
+                                    )
+                                } else if (
+                                    (question as DateInput).type === "date"
+                                ) {
+                                    return (
+                                        <DatePick
+                                            key={index}
+                                            index={index}
+                                            value={question.question}
+                                            required={question.required}
+                                        />
+                                    )
+                                } else if (
+                                    (question as TimeInput).type === "time"
+                                ) {
+                                    return (
+                                        <TimePick
+                                            key={index}
+                                            index={index}
+                                            value={question.question}
+                                            required={question.required}
                                         />
                                     )
                                 }
@@ -59,6 +83,7 @@ function Home() {
                                         key={index}
                                         index={index}
                                         value={question.question}
+                                        required={question.required}
                                     />
                                 )
                             }
@@ -71,10 +96,3 @@ function Home() {
 }
 
 export default Home
-
-{
-    /* <ShortAnswer />
-                    <Paragraph />
-                    <CheckBoxGroup />
-                    <RadioButtonGroup /> */
-}

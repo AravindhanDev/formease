@@ -1,4 +1,4 @@
-import { useReducer, useState, useContext, useEffect } from "react"
+import { useState, useContext } from "react"
 import PollIcon from "@mui/icons-material/Poll"
 import ColorLensOutlinedIcon from "@mui/icons-material/ColorLensOutlined"
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded"
@@ -23,7 +23,7 @@ function Navbar() {
                         {state?.title}
                     </span>
                 </div>
-                <div className="right">
+                <div className="">
                     {inputOption && <InputOption />}
 
                     <span
@@ -37,7 +37,7 @@ function Navbar() {
                     <span className="mr-4 cursor-pointer">
                         <ColorLensOutlinedIcon />
                     </span>
-                    <Button />
+                    <Button text="Send" />
                 </div>
             </div>
 

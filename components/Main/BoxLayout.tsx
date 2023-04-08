@@ -1,13 +1,20 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { ReactNode } from "react"
 
 interface BoxLayoutProps {
     children: ReactNode
 }
 
-function SideBoxLayout({ children }: BoxLayoutProps) {
+interface SideBoxLayoutProps {
+    children: ReactNode
+    color: string
+}
+
+function SideBoxLayout({ children, color }: SideBoxLayoutProps) {
     return (
-        <div className="mb-5 border-l-8 shadow-lg rounded-md border-purple-600 bg-white p-7">
+        <div
+            className={`mb-5 border-l-8 shadow-lg rounded-md border-${color}-600 bg-white p-7`}
+        >
             {children}
         </div>
     )

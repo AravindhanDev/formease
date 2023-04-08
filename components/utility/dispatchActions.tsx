@@ -29,6 +29,36 @@ function addShortAnswer(dispatch: any) {
     })
 }
 
+function addDatePicker(dispatch: any) {
+    dispatch({
+        type: "ADD_QUESTION",
+        payload: {
+            question: {
+                index: 0,
+                element: "input",
+                type: "date",
+                question: "",
+                required: false,
+            },
+        },
+    })
+}
+
+function addTimePicker(dispatch: any) {
+    dispatch({
+        type: "ADD_QUESTION",
+        payload: {
+            question: {
+                index: 0,
+                element: "input",
+                type: "time",
+                question: "",
+                required: false,
+            },
+        },
+    })
+}
+
 function addParagraph(dispatch: any) {
     dispatch({
         type: "ADD_QUESTION",
@@ -76,4 +106,11 @@ function addRadioButton(dispatch: any) {
     })
 }
 
-export { addShortAnswer, addParagraph, addCheckBox, addRadioButton }
+export {
+    addShortAnswer,
+    addParagraph,
+    addCheckBox,
+    addRadioButton,
+    addDatePicker,
+    addTimePicker,
+}

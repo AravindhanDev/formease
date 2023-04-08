@@ -1,24 +1,24 @@
-import { ChangeEvent, useState, useEffect, useContext } from "react"
+import { useContext, ChangeEvent, useState, useEffect } from "react"
 import InputVariant1 from "../InputVariant1"
 import { SideBoxLayout } from "./BoxLayout"
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined"
 import Switch from "@mui/material/Switch"
-import TextArea from "../TextArea"
 import { ReducerContext } from "../FormStateProvider"
+import TimePickInput from "../DatePickInput"
 
-interface ParagraphProps {
+interface DateProps {
     index: number
     value: string
     required: boolean
 }
 
-function Paragraph({ index, value, required }: ParagraphProps) {
+function TimePick({ index, value, required }: DateProps) {
     const [isCheck, setCheck] = useState(required)
+    const [answer, setAnswer] = useState("")
     const dispatch = useContext(ReducerContext)
     const [color, setColor] = useState(() => {
         return isCheck ? "red" : "purple"
     })
-    const [answer, setAnswer] = useState("")
 
     useEffect(() => {
         dispatch({
@@ -42,11 +42,11 @@ function Paragraph({ index, value, required }: ParagraphProps) {
         })
     }, [answer, dispatch, index])
 
-    function handleChange(event: ChangeEvent<HTMLTextAreaElement>) {
+    function handleChange(event: ChangeEvent<HTMLInputElement>) {
         setAnswer(event.target.value)
     }
 
-    function deleteQuestion() {
+    function deleteItem() {
         dispatch({ type: "DELETE_QUESTION", payload: { index } })
     }
 
@@ -55,24 +55,23 @@ function Paragraph({ index, value, required }: ParagraphProps) {
             <div>
                 <InputVariant1
                     index={index}
-                    type="text"
                     value={value}
+                    type="text"
                     placeholder={isCheck ? "Question *" : "Question"}
                 />
             </div>
-
             <div>
-                <TextArea
-                    placeholder="Your answer"
+                <TimePickInput
+                    type="time"
                     value={undefined}
+                    size={"text-base"}
                     onChange={handleChange}
-                ></TextArea>
+                />
             </div>
-
             <div className="text-right">
                 <span
                     className="cursor-pointer border-r-4 px-2"
-                    onClick={deleteQuestion}
+                    onClick={deleteItem}
                 >
                     <DeleteOutlinedIcon className="text-gray-500 text-3xl" />
                 </span>
@@ -83,8 +82,8 @@ function Paragraph({ index, value, required }: ParagraphProps) {
                         checked={isCheck}
                         onClick={() => {
                             setCheck((prev) => !prev)
-                            setColor((prevColor) => {
-                                return prevColor === "purple" ? "red" : "purple"
+                            setColor((prevColor: string) => {
+                                return prevColor === "red" ? "purple" : "red"
                             })
                         }}
                         color="secondary"
@@ -95,4 +94,4 @@ function Paragraph({ index, value, required }: ParagraphProps) {
     )
 }
 
-export default Paragraph
+export default TimePick
