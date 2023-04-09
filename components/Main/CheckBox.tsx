@@ -64,7 +64,7 @@ function CheckBox({
                 type="text"
                 value={item}
                 onChange={(event) => handleChange(event, index)}
-                className={`mx-5 border-gray-100 hover:border-gray-300 focus:${themeBorderClass} w-5/6 border-b-2 focus:border-b-2 transition-colors duration-300 focus:outline-none !important`}
+                className={`mx-5 hover:border-gray-300 border-transparent w-5/6 border-b-2 focus:border-b-2 transition-colors duration-300 focus:outline-none !important`}
             />
             <div className="cursor-pointer">
                 <CloseIcon
