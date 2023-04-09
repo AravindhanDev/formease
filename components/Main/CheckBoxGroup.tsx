@@ -8,12 +8,11 @@ import {
 import InputVariant1 from "../InputVariant1"
 import { SideBoxLayout } from "./BoxLayout"
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined"
-import Switch from "@mui/material/Switch"
 import CheckBox from "./CheckBox"
 import { ReducerContext } from "../FormStateProvider"
 import AddIcon from "@mui/icons-material/Add"
 import { setCurrentTheme } from "../utility/themeValidation"
-import { useTheme, useThemeUpdate } from "../ThemeProvider"
+import { useTheme } from "../ThemeProvider"
 import RenderSwitch from "../switches/RenderSwitch"
 
 interface CheckBoxGroupProps {
@@ -28,7 +27,6 @@ function CheckBoxGroup({ index, value, required }: CheckBoxGroupProps) {
     const [answers, setAnswers] = useState<string[]>([])
     const [checkBoxItems, setCheckBoxItems] = useState<string[]>(["New Option"])
     const currentTheme = useTheme()
-    const toggleTheme = useThemeUpdate()
     const [themeTextClass, setThemeTextClass] = useState("text-purple-700")
     const [, setThemeBorderClass] = useState("border-purple-700")
 
@@ -63,6 +61,9 @@ function CheckBoxGroup({ index, value, required }: CheckBoxGroupProps) {
 
     useEffect(() => {
         updateCheckBoxState(checkBoxItems)
+        if (checkBoxItems.length === 0) {
+            deleteQuestion()
+        }
     }, [checkBoxItems, updateCheckBoxState])
 
     function handleChange(event: ChangeEvent<HTMLInputElement>, index: number) {
@@ -115,6 +116,7 @@ function CheckBoxGroup({ index, value, required }: CheckBoxGroupProps) {
                             index={index}
                             answers={answers}
                             setAnswers={setAnswers}
+                            checkBoxItems={checkBoxItems}
                         />
                     )
                 })}

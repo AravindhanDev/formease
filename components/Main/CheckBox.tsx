@@ -6,7 +6,7 @@ import {
     useState,
 } from "react"
 import CloseIcon from "@mui/icons-material/Close"
-import { useTheme, useThemeUpdate } from "../ThemeProvider"
+import { useTheme } from "../ThemeProvider"
 import { setCurrentTheme } from "../utility/themeValidation"
 
 interface CheckBoxProps {
@@ -16,6 +16,7 @@ interface CheckBoxProps {
     deleteItem: (id: number) => void
     setAnswers: Dispatch<SetStateAction<string[]>>
     answers: string[]
+    checkBoxItems: string[]
 }
 
 function CheckBox({
@@ -28,9 +29,7 @@ function CheckBox({
     const currentTheme = useTheme()
     const [themeAccentClass, setThemeAccentClass] =
         useState("accent-purple-700")
-    const [themeBorderClass, setThemeBorderClass] =
-        useState("border-purple-700")
-    const toggleTheme = useThemeUpdate()
+    const [, setThemeBorderClass] = useState("border-purple-700")
 
     useEffect(() => {
         setCurrentTheme({

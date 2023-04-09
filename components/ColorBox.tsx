@@ -1,4 +1,4 @@
-import { useTheme, useThemeUpdate } from "./ThemeProvider"
+import { useThemeUpdate } from "./ThemeProvider"
 
 function ColorBox() {
     const toggleTheme = useThemeUpdate()

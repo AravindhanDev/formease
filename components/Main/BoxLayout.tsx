@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { ReactNode } from "react"
-import { useTheme, useThemeUpdate } from "../ThemeProvider"
+import { useTheme } from "../ThemeProvider"
 import { setCurrentTheme } from "../utility/themeValidation"
 
 interface BoxLayoutProps {

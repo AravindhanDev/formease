@@ -1,7 +1,6 @@
 import InputVariant1 from "../InputVariant1"
 import { SideBoxLayout } from "./BoxLayout"
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined"
-import Switch from "@mui/material/Switch"
 import RadioButton from "./RadioButton"
 import { FormStateContext, ReducerContext } from "../FormStateProvider"
 import AddIcon from "@mui/icons-material/Add"
@@ -12,7 +11,7 @@ import React, {
     useCallback,
     ChangeEvent,
 } from "react"
-import { useTheme, useThemeUpdate } from "../ThemeProvider"
+import { useTheme } from "../ThemeProvider"
 import { setCurrentTheme } from "../utility/themeValidation"
 import RenderSwitch from "../switches/RenderSwitch"
 
@@ -24,7 +23,6 @@ interface RadioButtonGroupProps {
 
 function RadioButtonGroup({ index, value, required }: RadioButtonGroupProps) {
     const [isCheck, setCheck] = useState(required)
-    const state = useContext(FormStateContext)
     const dispatch = useContext(ReducerContext)
     const [answer, setAnswer] = useState("")
     const [radioButtonItems, setRadioButtonItems] = useState<string[]>([
@@ -63,6 +61,9 @@ function RadioButtonGroup({ index, value, required }: RadioButtonGroupProps) {
 
     useEffect(() => {
         updateRadioButtonState(radioButtonItems)
+        if (radioButtonItems.length === 0) {
+            deleteQuestion()
+        }
     }, [radioButtonItems, updateRadioButtonState])
 
     function handleChange(event: ChangeEvent<HTMLInputElement>, index: number) {

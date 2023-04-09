@@ -3,6 +3,9 @@ import React, { Dispatch, SetStateAction } from "react"
 import YellowSwitch from "./YellowSwitch"
 import PinkSwitch from "./PinkSwitch"
 import RedSwitch from "./RedSwitch"
+import IndigoSwitch from "./IndigoSwitch"
+import TealSwitch from "./TealSwitch"
+import CyanSwitch from "./CyanSwitch"
 
 type RenderSwitchProps = {
     currentTheme: string
@@ -82,6 +85,33 @@ function RenderSwitch({ currentTheme, isCheck, setCheck }: RenderSwitchProps) {
 
             {currentTheme === "red" && (
                 <RedSwitch
+                    checked={isCheck}
+                    onClick={() => {
+                        setCheck((prev: boolean) => !prev)
+                    }}
+                />
+            )}
+
+            {currentTheme === "indigo" && (
+                <IndigoSwitch
+                    checked={isCheck}
+                    onClick={() => {
+                        setCheck((prev: boolean) => !prev)
+                    }}
+                />
+            )}
+
+            {currentTheme === "teal" && (
+                <TealSwitch
+                    checked={isCheck}
+                    onClick={() => {
+                        setCheck((prev: boolean) => !prev)
+                    }}
+                />
+            )}
+
+            {currentTheme === "cyan" && (
+                <CyanSwitch
                     checked={isCheck}
                     onClick={() => {
                         setCheck((prev: boolean) => !prev)

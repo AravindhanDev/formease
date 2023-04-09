@@ -9,11 +9,18 @@ import ShortAnswer from "@/components/Main/ShortAnswer"
 import DatePick from "@/components/Main/DatePick"
 import TimePick from "@/components/Main/TimePick"
 import { DateInput, TimeInput } from "@/components/FormJson"
-import { useThemeUpdate } from "@/components/ThemeProvider"
+import { useTheme, useThemeUpdate } from "@/components/ThemeProvider"
+import { checkState } from "@/components/utility/changeBg"
 
 function Home() {
     const state = useContext(FormStateContext)
+    const currentTheme = useTheme()
     const toggleTheme = useThemeUpdate()
+
+    useEffect(() => {
+        console.log(state)
+        checkState(currentTheme)
+    }, [currentTheme, toggleTheme, state])
 
     return (
         <>

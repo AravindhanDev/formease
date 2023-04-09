@@ -17,7 +17,6 @@ function Navbar() {
     const [themeTextClass, setThemeTextClass] = useState("text-purple-700")
     const [themeBorderClass, setThemeBorderClass] =
         useState("border-purple-700")
-    const toggleTheme = useThemeUpdate()
 
     useEffect(() => {
         setCurrentTheme({
@@ -29,7 +28,7 @@ function Navbar() {
 
     return (
         // fixed w-full
-        <nav className="bg-white">
+        <nav className="bg-white shadow-sm">
             <div className="p-4 flex justify-between">
                 <div className="left text-3xl flex items-center sm:block xs:hidden">
                     <span>
