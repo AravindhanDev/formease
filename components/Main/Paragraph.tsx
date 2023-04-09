@@ -5,6 +5,9 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined"
 import Switch from "@mui/material/Switch"
 import TextArea from "../TextArea"
 import { ReducerContext } from "../FormStateProvider"
+import { useTheme, useThemeUpdate } from "../ThemeProvider"
+import { setCurrentTheme } from "../utility/themeValidation"
+import RenderSwitch from "../switches/RenderSwitch"
 
 interface ParagraphProps {
     index: number
@@ -15,10 +18,19 @@ interface ParagraphProps {
 function Paragraph({ index, value, required }: ParagraphProps) {
     const [isCheck, setCheck] = useState(required)
     const dispatch = useContext(ReducerContext)
-    const [color, setColor] = useState(() => {
-        return isCheck ? "red" : "purple"
-    })
     const [answer, setAnswer] = useState("")
+    const currentTheme = useTheme()
+    const [, setThemeTextClass] = useState("text-purple-700")
+    const [, setThemeBorderClass] = useState("border-purple-700")
+    const toggleTheme = useThemeUpdate()
+
+    useEffect(() => {
+        setCurrentTheme({
+            currentTheme,
+            setThemeTextClass,
+            setThemeBorderClass,
+        })
+    }, [currentTheme])
 
     useEffect(() => {
         dispatch({
@@ -51,7 +63,7 @@ function Paragraph({ index, value, required }: ParagraphProps) {
     }
 
     return (
-        <SideBoxLayout color={color}>
+        <SideBoxLayout>
             <div>
                 <InputVariant1
                     index={index}
@@ -79,15 +91,10 @@ function Paragraph({ index, value, required }: ParagraphProps) {
 
                 <span className="mx-2 px-2">
                     Required
-                    <Switch
-                        checked={isCheck}
-                        onClick={() => {
-                            setCheck((prev) => !prev)
-                            setColor((prevColor) => {
-                                return prevColor === "purple" ? "red" : "purple"
-                            })
-                        }}
-                        color="secondary"
+                    <RenderSwitch
+                        currentTheme={currentTheme}
+                        isCheck={isCheck}
+                        setCheck={setCheck}
                     />
                 </span>
             </div>

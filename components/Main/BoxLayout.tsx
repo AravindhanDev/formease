@@ -1,5 +1,7 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { ReactNode } from "react"
+import { useTheme, useThemeUpdate } from "../ThemeProvider"
+import { setCurrentTheme } from "../utility/themeValidation"
 
 interface BoxLayoutProps {
     children: ReactNode
@@ -7,14 +9,23 @@ interface BoxLayoutProps {
 
 interface SideBoxLayoutProps {
     children: ReactNode
-    color: string
 }
 
-function SideBoxLayout({ children, color }: SideBoxLayoutProps) {
+function SideBoxLayout({ children }: SideBoxLayoutProps) {
+    const currentTheme = useTheme()
+    const [themeBorderClass, setThemeBorderClass] =
+        useState("border-purple-700")
+
+    useEffect(() => {
+        setCurrentTheme({
+            currentTheme,
+            setThemeBorderClass,
+        })
+    }, [currentTheme])
+
     return (
         <div
-            className={`mb-5 border-l-8 shadow-lg rounded-md border-${color}-600 bg-white p-5 sm:p-7`}
-            style={{ borderColor: color === "red" ? "#ED4444" : "#9333EA" }}
+            className={`mb-5 border-l-8 shadow-lg rounded-md ${themeBorderClass} bg-white p-5 sm:p-7`}
         >
             {children}
         </div>
@@ -22,8 +33,21 @@ function SideBoxLayout({ children, color }: SideBoxLayoutProps) {
 }
 
 function TopBoxLayout({ children }: BoxLayoutProps) {
+    const currentTheme = useTheme()
+    const [themeBorderClass, setThemeBorderClass] =
+        useState("border-purple-700")
+
+    useEffect(() => {
+        setCurrentTheme({
+            currentTheme,
+            setThemeBorderClass,
+        })
+    }, [currentTheme])
+
     return (
-        <div className="mb-5 border-t-8 shadow-lg rounded-md border-purple-600 bg-white p-7">
+        <div
+            className={`mb-5 border-t-8 shadow-lg rounded-md ${themeBorderClass} bg-white p-7`}
+        >
             {children}
         </div>
     )

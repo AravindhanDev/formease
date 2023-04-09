@@ -3,8 +3,11 @@ import InputVariant1 from "../InputVariant1"
 import { SideBoxLayout } from "./BoxLayout"
 import Input from "../Input"
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined"
-import Switch from "@mui/material/Switch"
-import { FormStateContext, ReducerContext } from "../FormStateProvider"
+import { ReducerContext } from "../FormStateProvider"
+import { useTheme, useThemeUpdate } from "../ThemeProvider"
+import { setCurrentTheme } from "../utility/themeValidation"
+import { Switch } from "@mui/material"
+import RenderSwitch from "../switches/RenderSwitch"
 
 interface ShortAnswerProps {
     index: number
@@ -16,9 +19,17 @@ function ShortAnswer({ index, value, required }: ShortAnswerProps) {
     const [isCheck, setCheck] = useState(required)
     const [answer, setAnswer] = useState("")
     const dispatch = useContext(ReducerContext)
-    const [color, setColor] = useState(() => {
-        return isCheck ? "red" : "purple"
-    })
+    const currentTheme = useTheme()
+    const [, setThemeTextClass] = useState("text-purple-700")
+    const [, setThemeBorderClass] = useState("border-purple-700")
+
+    useEffect(() => {
+        setCurrentTheme({
+            currentTheme,
+            setThemeTextClass,
+            setThemeBorderClass,
+        })
+    }, [currentTheme, setThemeBorderClass, setThemeTextClass])
 
     useEffect(() => {
         dispatch({
@@ -51,7 +62,7 @@ function ShortAnswer({ index, value, required }: ShortAnswerProps) {
     }
 
     return (
-        <SideBoxLayout color={color}>
+        <SideBoxLayout>
             <div>
                 <InputVariant1
                     index={index}
@@ -79,15 +90,10 @@ function ShortAnswer({ index, value, required }: ShortAnswerProps) {
 
                 <span className="mx-2 px-2">
                     Required
-                    <Switch
-                        checked={isCheck}
-                        onClick={() => {
-                            setCheck((prev) => !prev)
-                            setColor((prevColor) => {
-                                return prevColor === "purple" ? "red" : "purple"
-                            })
-                        }}
-                        color="secondary"
+                    <RenderSwitch
+                        isCheck={isCheck}
+                        setCheck={setCheck}
+                        currentTheme={currentTheme}
                     />
                 </span>
             </div>

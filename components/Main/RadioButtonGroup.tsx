@@ -12,6 +12,9 @@ import React, {
     useCallback,
     ChangeEvent,
 } from "react"
+import { useTheme, useThemeUpdate } from "../ThemeProvider"
+import { setCurrentTheme } from "../utility/themeValidation"
+import RenderSwitch from "../switches/RenderSwitch"
 
 interface RadioButtonGroupProps {
     index: number
@@ -23,13 +26,19 @@ function RadioButtonGroup({ index, value, required }: RadioButtonGroupProps) {
     const [isCheck, setCheck] = useState(required)
     const state = useContext(FormStateContext)
     const dispatch = useContext(ReducerContext)
-    const [color, setColor] = useState(() => {
-        return isCheck ? "red" : "purple"
-    })
     const [answer, setAnswer] = useState("")
     const [radioButtonItems, setRadioButtonItems] = useState<string[]>([
         "New Option",
     ])
+    const currentTheme = useTheme()
+    const [themeTextClass, setThemeTextClass] = useState("text-purple-700")
+
+    useEffect(() => {
+        setCurrentTheme({
+            currentTheme,
+            setThemeTextClass,
+        })
+    }, [currentTheme])
 
     useEffect(() => {
         dispatch({
@@ -85,7 +94,7 @@ function RadioButtonGroup({ index, value, required }: RadioButtonGroupProps) {
     }
 
     return (
-        <SideBoxLayout color={color}>
+        <SideBoxLayout>
             <div>
                 <InputVariant1
                     type="text"
@@ -111,7 +120,7 @@ function RadioButtonGroup({ index, value, required }: RadioButtonGroupProps) {
                 })}
                 <a
                     onClick={addOption}
-                    className="inline sm:hidden bg-purple-100 p-2 xs:text-sm rounded-md mx-2 text-purple-700 cursor-pointer font-normal"
+                    className={`inline sm:hidden bg-gray-100 p-2 xs:text-sm rounded-md ${themeTextClass} cursor-pointer font-normal`}
                 >
                     <AddIcon /> <span>option</span>
                 </a>
@@ -122,7 +131,7 @@ function RadioButtonGroup({ index, value, required }: RadioButtonGroupProps) {
             <div className="mt-5 sm:mt-3 text-right">
                 <a
                     onClick={addOption}
-                    className="sm:inline hidden bg-purple-100 sm:p-2 xs:p-1  xs:text-sm rounded-md mx-2 text-purple-700 cursor-pointer font-normal"
+                    className={`sm:inline hidden bg-gray-100 mx-2 p-2 xs:text-sm rounded-md ${themeTextClass} cursor-pointer font-normal`}
                 >
                     <AddIcon /> <span>option</span>
                 </a>
@@ -135,15 +144,10 @@ function RadioButtonGroup({ index, value, required }: RadioButtonGroupProps) {
 
                 <span className="mx-2 px-2 xs:text-sm">
                     Required
-                    <Switch
-                        checked={isCheck}
-                        onClick={() => {
-                            setCheck((prev) => !prev)
-                            setColor((prevColor) =>
-                                prevColor === "purple" ? "red" : "purple"
-                            )
-                        }}
-                        color="secondary"
+                    <RenderSwitch
+                        currentTheme={currentTheme}
+                        isCheck={isCheck}
+                        setCheck={setCheck}
                     />
                 </span>
             </div>

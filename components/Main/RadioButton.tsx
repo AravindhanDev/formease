@@ -1,5 +1,8 @@
 import CloseIcon from "@mui/icons-material/Close"
-import { ChangeEvent } from "react"
+import { ChangeEvent, useEffect } from "react"
+import { useState } from "react"
+import { setCurrentTheme } from "../utility/themeValidation"
+import { useTheme } from "../ThemeProvider"
 
 interface RadioButtonProps {
     item: string
@@ -18,6 +21,17 @@ function RadioButton({
     answer,
     setAnswer,
 }: RadioButtonProps) {
+    const currentTheme = useTheme()
+    const [themeAccentClass, setThemeAccentClass] =
+        useState("accent-purple-700")
+
+    useEffect(() => {
+        setCurrentTheme({
+            currentTheme,
+            setThemeAccentClass,
+        })
+    }, [currentTheme])
+
     function handleClick(item: string) {
         setAnswer(item)
     }
@@ -28,13 +42,13 @@ function RadioButton({
                 type="radio"
                 name="title"
                 onClick={() => handleClick(item)}
-                className="w-5 h-5 accent-purple-600 cursor-pointer"
+                className={`w-5 h-5 ${themeAccentClass} cursor-pointer`}
             />
             <input
                 type="text"
                 value={item}
                 onChange={(event) => handleChange(event, index)}
-                className="text-gray-700 mx-5 w-5/6 border-transparent border-b-2 focus:border-b-2 hover:border-gray-200 focus:border-purple-600 transition-colors duration-300 focus:outline-none"
+                className="text-gray-700 mx-5 w-5/6 border-transparent border-b-2 focus:border-b-2 hover:border-gray-200  transition-colors duration-300 focus:outline-none"
             />
             <div className="cursor-pointer">
                 <CloseIcon

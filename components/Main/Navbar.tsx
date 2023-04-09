@@ -1,15 +1,29 @@
-import { useState, useContext } from "react"
+import { useState, useContext, useEffect } from "react"
 import PollIcon from "@mui/icons-material/Poll"
 import ColorLensOutlinedIcon from "@mui/icons-material/ColorLensOutlined"
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded"
 import Button from "../Button"
 import InputOption from "@/pages/form/InputOption"
 import { FormStateContext } from "@/components/FormStateProvider"
-
+import { setCurrentTheme } from "../utility/themeValidation"
+import { useTheme, useThemeUpdate } from "../ThemeProvider"
 function Navbar() {
     const [current, setCurrent] = useState<number>(1)
     const [inputOption, setInputOption] = useState<boolean>(false)
     const state = useContext(FormStateContext)
+    const currentTheme = useTheme()
+    const [themeTextClass, setThemeTextClass] = useState("text-purple-700")
+    const [themeBorderClass, setThemeBorderClass] =
+        useState("border-purple-700")
+    const toggleTheme = useThemeUpdate()
+
+    useEffect(() => {
+        setCurrentTheme({
+            currentTheme,
+            setThemeTextClass,
+            setThemeBorderClass,
+        })
+    }, [currentTheme])
 
     return (
         // fixed w-full
@@ -17,7 +31,7 @@ function Navbar() {
             <div className="p-4 flex justify-between">
                 <div className="left text-3xl flex items-center sm:block xs:hidden">
                     <span>
-                        <PollIcon className="text-4xl text-purple-700" />
+                        <PollIcon className={`text-4xl ${themeTextClass}`} />
                     </span>
                     <span className="px-2 text-xl font-medium text-gray-600">
                         {state?.title}
@@ -45,7 +59,7 @@ function Navbar() {
                 <div
                     className={`text-sm ${
                         current === 1 && "border-b-4"
-                    } pb-2 border-purple-700 cursor-pointer`}
+                    } pb-2 ${themeBorderClass} cursor-pointer`}
                     onClick={() => setCurrent(1)}
                 >
                     Questions
@@ -54,10 +68,18 @@ function Navbar() {
                 <div
                     className={`text-sm ${
                         current === 2 && "border-b-4"
-                    } pb-2 border-purple-700 cursor-pointer`}
+                    } pb-2 ${themeBorderClass}  cursor-pointer`}
                     onClick={() => setCurrent(2)}
                 >
                     Responses
+                </div>
+                <div
+                    className={`mx-3 text-sm ${
+                        current === 3 && "border-b-4"
+                    } pb-2 ${themeBorderClass}  cursor-pointer`}
+                    onClick={() => setCurrent(3)}
+                >
+                    Settings
                 </div>
             </div>
         </nav>

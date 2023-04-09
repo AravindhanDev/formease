@@ -20,7 +20,7 @@ function InputVariant1(props: InputProps) {
         <input
             onChange={(event) => handleChange(event, props.index)}
             {...props}
-            className="mb-4 focus:bg-purple-100 font-medium focus:font-normal text-md focus:border-b-2 focus:p-3 border-gray-300 w-full focus:outline-none focus:border-purple-600 transition-colors duration-500"
+            className="mb-4 focus:bg-purple-100 font-medium focus:font-normal text-md focus:border-b-2 focus:p-3 border-gray-300 w-full focus:outline-none transition-colors duration-500"
         />
     )
 }

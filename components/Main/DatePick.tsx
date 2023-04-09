@@ -5,6 +5,9 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined"
 import Switch from "@mui/material/Switch"
 import { ReducerContext } from "../FormStateProvider"
 import DatePickInput from "../DatePickInput"
+import { useTheme, useThemeUpdate } from "../ThemeProvider"
+import { setCurrentTheme } from "../utility/themeValidation"
+import RenderSwitch from "../switches/RenderSwitch"
 
 interface DateProps {
     index: number
@@ -16,9 +19,17 @@ function DatePick({ index, value, required }: DateProps) {
     const [isCheck, setCheck] = useState(required)
     const [answer, setAnswer] = useState("")
     const dispatch = useContext(ReducerContext)
-    const [color, setColor] = useState(() => {
-        return isCheck ? "red" : "purple"
-    })
+    const currentTheme = useTheme()
+    const [, setThemeTextClass] = useState("text-purple-700")
+    const [, setThemeBorderClass] = useState("border-purple-700")
+
+    useEffect(() => {
+        setCurrentTheme({
+            currentTheme,
+            setThemeTextClass,
+            setThemeBorderClass,
+        })
+    }, [currentTheme])
 
     useEffect(() => {
         dispatch({
@@ -51,7 +62,7 @@ function DatePick({ index, value, required }: DateProps) {
     }
 
     return (
-        <SideBoxLayout color={color}>
+        <SideBoxLayout>
             <div>
                 <InputVariant1
                     index={index}
@@ -78,15 +89,10 @@ function DatePick({ index, value, required }: DateProps) {
 
                 <span className="mx-2 px-2">
                     Required
-                    <Switch
-                        checked={isCheck}
-                        onClick={() => {
-                            setCheck((prev) => !prev)
-                            setColor((prevColor: string) => {
-                                return prevColor === "red" ? "purple" : "red"
-                            })
-                        }}
-                        color="secondary"
+                    <RenderSwitch
+                        currentTheme={currentTheme}
+                        isCheck={isCheck}
+                        setCheck={setCheck}
                     />
                 </span>
             </div>

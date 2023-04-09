@@ -12,6 +12,9 @@ import Switch from "@mui/material/Switch"
 import CheckBox from "./CheckBox"
 import { ReducerContext } from "../FormStateProvider"
 import AddIcon from "@mui/icons-material/Add"
+import { setCurrentTheme } from "../utility/themeValidation"
+import { useTheme, useThemeUpdate } from "../ThemeProvider"
+import RenderSwitch from "../switches/RenderSwitch"
 
 interface CheckBoxGroupProps {
     index: number
@@ -24,9 +27,18 @@ function CheckBoxGroup({ index, value, required }: CheckBoxGroupProps) {
     const [isCheck, setCheck] = useState(required)
     const [answers, setAnswers] = useState<string[]>([])
     const [checkBoxItems, setCheckBoxItems] = useState<string[]>(["New Option"])
-    const [color, setColor] = useState(() => {
-        return isCheck ? "red" : "purple"
-    })
+    const currentTheme = useTheme()
+    const toggleTheme = useThemeUpdate()
+    const [themeTextClass, setThemeTextClass] = useState("text-purple-700")
+    const [, setThemeBorderClass] = useState("border-purple-700")
+
+    useEffect(() => {
+        setCurrentTheme({
+            currentTheme,
+            setThemeTextClass,
+            setThemeBorderClass,
+        })
+    }, [currentTheme])
 
     useEffect(() => {
         dispatch({
@@ -82,7 +94,7 @@ function CheckBoxGroup({ index, value, required }: CheckBoxGroupProps) {
     }
 
     return (
-        <SideBoxLayout color={color}>
+        <SideBoxLayout>
             <div>
                 <InputVariant1
                     type="text"
@@ -108,7 +120,7 @@ function CheckBoxGroup({ index, value, required }: CheckBoxGroupProps) {
                 })}
                 <a
                     onClick={addOption}
-                    className="inline sm:hidden bg-purple-100 p-2  xs:text-sm rounded-md mx-2 text-purple-700 cursor-pointer font-normal"
+                    className={`inline sm:hidden bg-gray-100 p-2 xs:text-sm rounded-md ${themeTextClass} cursor-pointer font-normal`}
                 >
                     <AddIcon /> <span>option</span>
                 </a>
@@ -119,7 +131,7 @@ function CheckBoxGroup({ index, value, required }: CheckBoxGroupProps) {
             <div className="mt-5 sm:mt-3 text-right">
                 <a
                     onClick={addOption}
-                    className="sm:inline hidden bg-purple-100 sm:p-2 xs:p-1  xs:text-sm rounded-md mx-2 text-purple-700 cursor-pointer font-normal"
+                    className={`sm:inline hidden bg-gray-100 p-2 xs:text-sm rounded-md mx-2 ${themeTextClass} cursor-pointer font-normal`}
                 >
                     <AddIcon /> <span>option</span>
                 </a>
@@ -133,15 +145,10 @@ function CheckBoxGroup({ index, value, required }: CheckBoxGroupProps) {
 
                 <span className="mx-2 px-2 xs:text-sm">
                     Required
-                    <Switch
-                        checked={isCheck}
-                        onClick={() => {
-                            setCheck((prev) => !prev)
-                            setColor((prevColor) =>
-                                prevColor === "purple" ? "red" : "purple"
-                            )
-                        }}
-                        color="secondary"
+                    <RenderSwitch
+                        currentTheme={currentTheme}
+                        isCheck={isCheck}
+                        setCheck={setCheck}
                     />
                 </span>
             </div>
