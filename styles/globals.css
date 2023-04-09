@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    --bg-color: '#F1F3F4';
+}
 
 @layer utilities {
     .box-custom {

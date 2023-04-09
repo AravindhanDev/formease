@@ -7,9 +7,11 @@ import InputOption from "@/pages/form/InputOption"
 import { FormStateContext } from "@/components/FormStateProvider"
 import { setCurrentTheme } from "../utility/themeValidation"
 import { useTheme, useThemeUpdate } from "../ThemeProvider"
+import ColorBox from "../ColorBox"
 function Navbar() {
     const [current, setCurrent] = useState<number>(1)
     const [inputOption, setInputOption] = useState<boolean>(false)
+    const [colorBox, setColorBox] = useState<boolean>(false)
     const state = useContext(FormStateContext)
     const currentTheme = useTheme()
     const [themeTextClass, setThemeTextClass] = useState("text-purple-700")
@@ -39,6 +41,7 @@ function Navbar() {
                 </div>
                 <div className="">
                     {inputOption && <InputOption />}
+                    {colorBox && <ColorBox />}
 
                     <span
                         className="mr-4 cursor-pointer"
@@ -48,7 +51,12 @@ function Navbar() {
                     >
                         <AddCircleOutlineRoundedIcon />
                     </span>
-                    <span className="mr-4 cursor-pointer">
+                    <span
+                        tabIndex={0}
+                        onFocus={() => setColorBox((prev) => !prev)}
+                        onBlur={() => setColorBox((prev) => !prev)}
+                        className="mr-4 cursor-pointer"
+                    >
                         <ColorLensOutlinedIcon />
                     </span>
                     <Button text="Send" />

@@ -121,4 +121,46 @@ export function setCurrentTheme(props: CurrentThemeProps) {
             props.setThemeAccentClass("accent-red-700")
         }
     }
+    if (props.currentTheme === "indigo") {
+        if (props.setThemeTextClass) {
+            props.setThemeTextClass("text-indigo-600")
+        }
+        if (props.setThemeBorderClass) {
+            props.setThemeBorderClass("border-indigo-600")
+        }
+        if (props.setThemeBgClass) {
+            props.setThemeBgClass("bg-indigo-600")
+        }
+        if (props.setThemeAccentClass) {
+            props.setThemeAccentClass("accent-indigo-700")
+        }
+    }
+    if (props.currentTheme === "cyan") {
+        if (props.setThemeTextClass) {
+            props.setThemeTextClass("text-cyan-600")
+        }
+        if (props.setThemeBorderClass) {
+            props.setThemeBorderClass("border-cyan-600")
+        }
+        if (props.setThemeBgClass) {
+            props.setThemeBgClass("bg-cyan-600")
+        }
+        if (props.setThemeAccentClass) {
+            props.setThemeAccentClass("accent-cyan-700")
+        }
+    }
+    if (props.currentTheme === "teal") {
+        if (props.setThemeTextClass) {
+            props.setThemeTextClass("text-teal-600")
+        }
+        if (props.setThemeBorderClass) {
+            props.setThemeBorderClass("border-teal-600")
+        }
+        if (props.setThemeBgClass) {
+            props.setThemeBgClass("bg-teal-600")
+        }
+        if (props.setThemeAccentClass) {
+            props.setThemeAccentClass("accent-teal-700")
+        }
+    }
 }

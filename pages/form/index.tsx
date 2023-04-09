@@ -15,10 +15,6 @@ function Home() {
     const state = useContext(FormStateContext)
     const toggleTheme = useThemeUpdate()
 
-    useEffect(() => {
-        toggleTheme("blue")
-    }, [toggleTheme])
-
     return (
         <>
             <Navbar />
