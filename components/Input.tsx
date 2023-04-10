@@ -1,6 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react"
-import { useTheme, useThemeUpdate } from "./ThemeProvider"
-import { setCurrentTheme } from "./utility/themeValidation"
+import { ChangeEvent } from "react"
 
 interface InputProps {
     type: string

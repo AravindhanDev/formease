@@ -21,7 +21,6 @@ function Paragraph({ index, value, required }: ParagraphProps) {
     const currentTheme = useTheme()
     const [, setThemeTextClass] = useState("text-purple-700")
     const [, setThemeBorderClass] = useState("border-purple-700")
-    const toggleTheme = useThemeUpdate()
 
     useEffect(() => {
         setCurrentTheme({
@@ -47,7 +46,7 @@ function Paragraph({ index, value, required }: ParagraphProps) {
             type: "UPDATE_QUESTION",
             payload: {
                 index,
-                key: "answers",
+                key: "answer",
                 value: answer,
             },
         })

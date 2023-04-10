@@ -1,7 +1,10 @@
 import { useContext, useEffect } from "react"
 import Header from "@/components/Main/Header"
 import Navbar from "@/components/Main/Navbar"
-import { FormStateContext } from "@/components/FormStateProvider"
+import {
+    FormStateContext,
+    ReducerContext,
+} from "@/components/FormStateProvider"
 import CheckBoxGroup from "@/components/Main/CheckBoxGroup"
 import Paragraph from "@/components/Main/Paragraph"
 import RadioButtonGroup from "@/components/Main/RadioButtonGroup"
@@ -9,18 +12,18 @@ import ShortAnswer from "@/components/Main/ShortAnswer"
 import DatePick from "@/components/Main/DatePick"
 import TimePick from "@/components/Main/TimePick"
 import { DateInput, TimeInput } from "@/components/FormJson"
-import { useTheme, useThemeUpdate } from "@/components/ThemeProvider"
-import { checkState } from "@/components/utility/changeBg"
 
 function Home() {
     const state = useContext(FormStateContext)
-    const currentTheme = useTheme()
-    const toggleTheme = useThemeUpdate()
+    const dispatch = useContext(ReducerContext)
 
     useEffect(() => {
-        console.log(state)
-        checkState(currentTheme)
-    }, [currentTheme, toggleTheme, state])
+        dispatch({ type: "LOAD_FORM" })
+    }, [dispatch])
+
+    useEffect(() => {
+        dispatch({ type: "SAVE_FORM" })
+    }, [state, dispatch])
 
     return (
         <>

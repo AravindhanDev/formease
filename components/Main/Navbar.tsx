@@ -6,7 +6,7 @@ import Button from "../Button"
 import InputOption from "@/pages/form/InputOption"
 import { FormStateContext } from "@/components/FormStateProvider"
 import { setCurrentTheme } from "../utility/themeValidation"
-import { useTheme, useThemeUpdate } from "../ThemeProvider"
+import { useTheme } from "../ThemeProvider"
 import ColorBox from "../ColorBox"
 function Navbar() {
     const [current, setCurrent] = useState<number>(1)

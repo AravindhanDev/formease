@@ -18,7 +18,7 @@ interface CheckBoxInput {
     answer: string[]
 }
 
-interface TextInput {
+export interface TextInput {
     index: number
     element: string
     type: string
@@ -62,7 +62,7 @@ type Questions =
     | DateInput
     | TimeInput
 
-interface FormInitialState {
+export interface FormInitialState {
     title: string
     description: string
     questionCount: number
@@ -96,6 +96,12 @@ export type FormAction =
               value: string
           }
       }
+    | {
+          type: "LOAD_FORM"
+      }
+    | {
+          type: "SAVE_FORM"
+      }
 
 const initialState: FormInitialState = {
     title: "Untitled form",
@@ -111,6 +117,25 @@ function reducer(state: any, action: any) {
 
         case "SET_DESCRIPTION":
             return { ...state, description: action.payload.description }
+
+        case "LOAD_FORM": {
+            let value = localStorage.getItem("formState")
+            console.clear()
+            return value ? JSON.parse(value) : initialState
+        }
+
+        case "SAVE_FORM":
+            localStorage.setItem("formState", JSON.stringify(state))
+            console.log(state)
+            return state
+
+        case "SET_FORM_STATE":
+            return {
+                title: action.payload.title,
+                description: action.payload.description,
+                questionCount: action.payload.questionCount,
+                questions: action.payload.questions,
+            }
 
         case "ADD_QUESTION":
             const question = {
@@ -164,49 +189,3 @@ export function getFormInitialState() {
 export function getFormReducer() {
     return reducer
 }
-
-// interface FormInitialState {
-//     title: string
-//     description: string
-//     questionCount: number
-//     questions: Questions[]
-//     setTitle?: (title: string) => void
-//     setDescription?: (description: string) => void
-//     addQuestion?: (question: Questions) => void
-//     updateQuestion?: (
-//         index: number,
-//         type: string,
-//         key: string,
-//         value: string
-//     ) => void
-// }
-
-// class FormState implements FormInitialState {
-//     title: string = ""
-//     description: string = ""
-//     questionCount: number = 0
-//     questions: Questions[] = []
-
-//     setTitle(title: string): void {
-//         this.title = title
-//     }
-
-//     setDescription(description: string): void {
-//         this.description = description
-//     }
-
-//     addQuestion(question: Questions): void {
-//         this.questions.push(question)
-//         this.questionCount++
-//     }
-
-//     updateQuestion(
-//         index: number,
-//         type: string | null = null,
-//         key: string,
-//         value: string
-//     ): void {
-//         const question: Questions = this.questions[index]
-//         question[key] = value
-//     }
-// }

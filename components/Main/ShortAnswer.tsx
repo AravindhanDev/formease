@@ -4,9 +4,8 @@ import { SideBoxLayout } from "./BoxLayout"
 import Input from "../Input"
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined"
 import { ReducerContext } from "../FormStateProvider"
-import { useTheme, useThemeUpdate } from "../ThemeProvider"
+import { useTheme } from "../ThemeProvider"
 import { setCurrentTheme } from "../utility/themeValidation"
-import { Switch } from "@mui/material"
 import RenderSwitch from "../switches/RenderSwitch"
 
 interface ShortAnswerProps {
@@ -46,8 +45,8 @@ function ShortAnswer({ index, value, required }: ShortAnswerProps) {
         dispatch({
             type: "UPDATE_QUESTION",
             payload: {
-                index,
-                key: "answers",
+                index: index,
+                key: "answer",
                 value: answer,
             },
         })
@@ -75,7 +74,7 @@ function ShortAnswer({ index, value, required }: ShortAnswerProps) {
                 <Input
                     type="text"
                     placeholder="Yout answer"
-                    value={undefined}
+                    value={answer}
                     size={"text-base"}
                     onChange={handleChange}
                 />
