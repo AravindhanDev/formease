@@ -24,6 +24,7 @@ function addShortAnswer(dispatch: any) {
                 type: "text",
                 question: "",
                 required: false,
+                answer: "",
             },
         },
     })
@@ -39,6 +40,7 @@ function addDatePicker(dispatch: any) {
                 type: "date",
                 question: "",
                 required: false,
+                answer: "",
             },
         },
     })
@@ -54,6 +56,7 @@ function addTimePicker(dispatch: any) {
                 type: "time",
                 question: "",
                 required: false,
+                answer: "",
             },
         },
     })
@@ -69,6 +72,7 @@ function addParagraph(dispatch: any) {
                 type: "textarea",
                 question: "",
                 required: false,
+                answer: "",
             },
         },
     })
@@ -101,6 +105,7 @@ function addRadioButton(dispatch: any) {
                 question: "",
                 options: [],
                 required: false,
+                answer: "",
             },
         },
     })

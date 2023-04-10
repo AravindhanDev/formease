@@ -48,12 +48,14 @@ function Home() {
                                 } else if (
                                     (question as RadioInput).type === "radio"
                                 ) {
+                                    const radioInput = question as RadioInput
                                     return (
                                         <RadioButtonGroup
                                             key={index}
                                             index={index}
-                                            value={question.question}
-                                            required={question.required}
+                                            value={radioInput.question}
+                                            required={radioInput.required}
+                                            userAnswer={radioInput?.answer}
                                         />
                                     )
                                 } else if (

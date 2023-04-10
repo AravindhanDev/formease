@@ -19,12 +19,18 @@ interface RadioButtonGroupProps {
     index: number
     value: string
     required: boolean
+    userAnswer: string
 }
 
-function RadioButtonGroup({ index, value, required }: RadioButtonGroupProps) {
+function RadioButtonGroup({
+    index,
+    value,
+    required,
+    userAnswer,
+}: RadioButtonGroupProps) {
     const [isCheck, setCheck] = useState(required)
     const dispatch = useContext(ReducerContext)
-    const [answer, setAnswer] = useState("")
+    // const [answer, setAnswer] = useState("")
     const [radioButtonItems, setRadioButtonItems] = useState<string[]>([
         "New Option",
     ])
@@ -32,22 +38,24 @@ function RadioButtonGroup({ index, value, required }: RadioButtonGroupProps) {
     const [themeTextClass, setThemeTextClass] = useState("text-purple-700")
 
     useEffect(() => {
+        let formState: any = localStorage.getItem("formState")
+        if (formState) {
+            formState = JSON.parse(formState)
+            if (
+                formState?.questions?.length &&
+                formState.questions[index]?.options
+            ) {
+                setRadioButtonItems(formState?.questions[index].options)
+            }
+        }
+    }, [index])
+
+    useEffect(() => {
         setCurrentTheme({
             currentTheme,
             setThemeTextClass,
         })
     }, [currentTheme])
-
-    useEffect(() => {
-        dispatch({
-            type: "UPDATE_QUESTION",
-            payload: {
-                index,
-                key: "answers",
-                value: answer,
-            },
-        })
-    }, [answer, dispatch, index])
 
     const updateRadioButtonState = useCallback(
         (value: string[]) => {
@@ -59,12 +67,16 @@ function RadioButtonGroup({ index, value, required }: RadioButtonGroupProps) {
         [dispatch, index]
     )
 
+    const deleteQuestion = useCallback(() => {
+        dispatch({ type: "DELETE_QUESTION", payload: { index } })
+    }, [dispatch, index])
+
     useEffect(() => {
         updateRadioButtonState(radioButtonItems)
         if (radioButtonItems.length === 0) {
             deleteQuestion()
         }
-    }, [radioButtonItems, updateRadioButtonState])
+    }, [deleteQuestion, radioButtonItems, updateRadioButtonState])
 
     function handleChange(event: ChangeEvent<HTMLInputElement>, index: number) {
         setRadioButtonItems((prevItems: string[]) => {
@@ -90,10 +102,6 @@ function RadioButtonGroup({ index, value, required }: RadioButtonGroupProps) {
         })
     }
 
-    function deleteQuestion() {
-        dispatch({ type: "DELETE_QUESTION", payload: { index } })
-    }
-
     return (
         <SideBoxLayout>
             <div>
@@ -106,16 +114,16 @@ function RadioButtonGroup({ index, value, required }: RadioButtonGroupProps) {
             </div>
 
             <div className="mb-3">
-                {radioButtonItems.map((item, index) => {
+                {radioButtonItems.map((item, id) => {
                     return (
                         <RadioButton
-                            key={index}
+                            key={id}
+                            id={id}
                             item={item}
                             handleChange={handleChange}
                             deleteItem={deleteItem}
                             index={index}
-                            answer={answer}
-                            setAnswer={setAnswer}
+                            userAnswer={userAnswer}
                         />
                     )
                 })}

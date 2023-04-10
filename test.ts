@@ -1,4 +1,6 @@
 interface RadioInput {
+    index: number
+    answer: string
     element: string
     type: string
     question: string
@@ -16,6 +18,7 @@ interface CheckBoxInput {
 }
 
 interface TextInput {
+    index: number
     answer: string
     element: string
     type: string
