@@ -12,9 +12,10 @@ interface ParagraphProps {
     index: number
     value: string
     required: boolean
+    userAnswer: string
 }
 
-function Paragraph({ index, value, required }: ParagraphProps) {
+function Paragraph({ index, value, required, userAnswer }: ParagraphProps) {
     const [isCheck, setCheck] = useState(required)
     const dispatch = useContext(ReducerContext)
     const [answer, setAnswer] = useState("")
@@ -41,7 +42,19 @@ function Paragraph({ index, value, required }: ParagraphProps) {
         })
     }, [isCheck, dispatch, index])
 
-    useEffect(() => {
+    // useEffect(() => {
+    //     dispatch({
+    //         type: "UPDATE_QUESTION",
+    //         payload: {
+    //             index,
+    //             key: "answer",
+    //             value: answer,
+    //         },
+    //     })
+    // }, [answer, dispatch, index])
+
+    function handleChange(event: ChangeEvent<HTMLTextAreaElement>) {
+        let answer = event.target.value
         dispatch({
             type: "UPDATE_QUESTION",
             payload: {
@@ -50,10 +63,6 @@ function Paragraph({ index, value, required }: ParagraphProps) {
                 value: answer,
             },
         })
-    }, [answer, dispatch, index])
-
-    function handleChange(event: ChangeEvent<HTMLTextAreaElement>) {
-        setAnswer(event.target.value)
     }
 
     function deleteQuestion() {
@@ -74,7 +83,7 @@ function Paragraph({ index, value, required }: ParagraphProps) {
             <div>
                 <TextArea
                     placeholder="Your answer"
-                    value={undefined}
+                    value={userAnswer}
                     onChange={handleChange}
                 ></TextArea>
             </div>

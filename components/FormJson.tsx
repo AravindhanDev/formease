@@ -1,4 +1,4 @@
-interface RadioInput {
+export interface RadioInput {
     index: number
     element: string
     type: string
@@ -8,7 +8,7 @@ interface RadioInput {
     answer: string
 }
 
-interface CheckBoxInput {
+export interface CheckBoxInput {
     index: number
     element: string
     type: string
@@ -45,7 +45,7 @@ export interface TimeInput {
     answer: string
 }
 
-interface TextArea {
+export interface TextArea {
     index: number
     element: string
     type: string
@@ -66,7 +66,14 @@ export interface FormInitialState {
     title: string
     description: string
     questionCount: number
-    questions: Questions[]
+    questions: (
+        | TextInput
+        | TextArea
+        | RadioInput
+        | CheckBoxInput
+        | DateInput
+        | TimeInput
+    )[]
 }
 
 export type FormAction =
@@ -85,7 +92,14 @@ export type FormAction =
     | {
           type: "ADD_QUESTION"
           payload: {
-              question: Questions
+              question: (
+                  | TextInput
+                  | TextArea
+                  | RadioInput
+                  | CheckBoxInput
+                  | DateInput
+                  | TimeInput
+              )[]
           }
       }
     | {
@@ -120,13 +134,11 @@ function reducer(state: any, action: any) {
 
         case "LOAD_FORM": {
             let value = localStorage.getItem("formState")
-            console.clear()
-            return value ? JSON.parse(value) : initialState
+            return value !== null ? JSON.parse(value) : initialState
         }
 
         case "SAVE_FORM":
             localStorage.setItem("formState", JSON.stringify(state))
-            console.log(state)
             return state
 
         case "SET_FORM_STATE":

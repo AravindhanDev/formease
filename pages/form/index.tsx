@@ -35,12 +35,14 @@ function Home() {
                         (question: Questions, index: number) => {
                             if (question.element === "input") {
                                 if ((question as TextInput).type === "text") {
+                                    const textInput = question as TextInput
                                     return (
                                         <ShortAnswer
                                             key={index}
                                             index={index}
-                                            value={question.question}
-                                            required={question.required}
+                                            value={textInput.question}
+                                            required={textInput.required}
+                                            userAnswer={textInput?.answer}
                                         />
                                     )
                                 } else if (
@@ -69,33 +71,41 @@ function Home() {
                                 } else if (
                                     (question as DateInput).type === "date"
                                 ) {
+                                    const dateInput = question as DateInput
                                     return (
                                         <DatePick
                                             key={index}
                                             index={index}
-                                            value={question.question}
-                                            required={question.required}
+                                            value={dateInput.question}
+                                            required={dateInput.required}
+                                            userAnswer={dateInput?.answer}
                                         />
                                     )
                                 } else if (
                                     (question as TimeInput).type === "time"
                                 ) {
+                                    const timeInput = question as TimeInput
+
                                     return (
                                         <TimePick
                                             key={index}
                                             index={index}
-                                            value={question.question}
-                                            required={question.required}
+                                            value={timeInput.question}
+                                            required={timeInput.required}
+                                            userAnswer={timeInput?.answer}
                                         />
                                     )
                                 }
                             } else {
+                                const textArea = question as TextArea
+
                                 return (
                                     <Paragraph
                                         key={index}
                                         index={index}
-                                        value={question.question}
-                                        required={question.required}
+                                        value={textArea.question}
+                                        required={textArea.required}
+                                        userAnswer={textArea?.answer}
                                     />
                                 )
                             }

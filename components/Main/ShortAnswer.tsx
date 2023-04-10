@@ -3,7 +3,7 @@ import InputVariant1 from "../InputVariant1"
 import { SideBoxLayout } from "./BoxLayout"
 import Input from "../Input"
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined"
-import { ReducerContext } from "../FormStateProvider"
+import { FormStateContext, ReducerContext } from "../FormStateProvider"
 import { useTheme } from "../ThemeProvider"
 import { setCurrentTheme } from "../utility/themeValidation"
 import RenderSwitch from "../switches/RenderSwitch"
@@ -12,12 +12,13 @@ interface ShortAnswerProps {
     index: number
     value: string
     required: boolean
+    userAnswer: string
 }
 
-function ShortAnswer({ index, value, required }: ShortAnswerProps) {
+function ShortAnswer({ index, value, required, userAnswer }: ShortAnswerProps) {
     const [isCheck, setCheck] = useState(required)
-    const [answer, setAnswer] = useState("")
     const dispatch = useContext(ReducerContext)
+    // const [answer, setAnswer] = useState("")
     const currentTheme = useTheme()
     const [, setThemeTextClass] = useState("text-purple-700")
     const [, setThemeBorderClass] = useState("border-purple-700")
@@ -41,7 +42,19 @@ function ShortAnswer({ index, value, required }: ShortAnswerProps) {
         })
     }, [isCheck, dispatch, index])
 
-    useEffect(() => {
+    // useEffect(() => {
+    //     dispatch({
+    //         type: "UPDATE_QUESTION",
+    //         payload: {
+    //             index: index,
+    //             key: "answer",
+    //             value: answer,
+    //         },
+    //     })
+    // }, [answer, dispatch, index])
+
+    function handleChange(event: ChangeEvent<HTMLInputElement>) {
+        let answer = event.target.value
         dispatch({
             type: "UPDATE_QUESTION",
             payload: {
@@ -50,10 +63,7 @@ function ShortAnswer({ index, value, required }: ShortAnswerProps) {
                 value: answer,
             },
         })
-    }, [answer, dispatch, index])
-
-    function handleChange(event: ChangeEvent<HTMLInputElement>) {
-        setAnswer(event.target.value)
+        // setAnswer(event.target.value)
     }
 
     function deleteItem() {
@@ -74,7 +84,7 @@ function ShortAnswer({ index, value, required }: ShortAnswerProps) {
                 <Input
                     type="text"
                     placeholder="Yout answer"
-                    value={answer}
+                    value={userAnswer}
                     size={"text-base"}
                     onChange={handleChange}
                 />

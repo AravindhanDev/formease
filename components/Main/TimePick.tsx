@@ -12,11 +12,12 @@ interface DateProps {
     index: number
     value: string
     required: boolean
+    userAnswer: string
 }
 
-function TimePick({ index, value, required }: DateProps) {
+function TimePick({ index, value, required, userAnswer }: DateProps) {
     const [isCheck, setCheck] = useState(required)
-    const [answer, setAnswer] = useState("")
+    // const [answer, setAnswer] = useState("")
     const dispatch = useContext(ReducerContext)
     const currentTheme = useTheme()
     const [, setThemeTextClass] = useState("text-purple-700")
@@ -42,19 +43,20 @@ function TimePick({ index, value, required }: DateProps) {
         })
     }, [isCheck, dispatch, index])
 
-    useEffect(() => {
+    // useEffect(() => {
+
+    // }, [answer, dispatch, index])
+
+    function handleChange(event: ChangeEvent<HTMLInputElement>) {
+        const answer = event.target.value
         dispatch({
             type: "UPDATE_QUESTION",
             payload: {
                 index,
-                key: "answers",
+                key: "answer",
                 value: answer,
             },
         })
-    }, [answer, dispatch, index])
-
-    function handleChange(event: ChangeEvent<HTMLInputElement>) {
-        setAnswer(event.target.value)
     }
 
     function deleteItem() {
@@ -74,7 +76,7 @@ function TimePick({ index, value, required }: DateProps) {
             <div>
                 <TimePickInput
                     type="time"
-                    value={undefined}
+                    value={userAnswer}
                     size={"text-base"}
                     onChange={handleChange}
                 />

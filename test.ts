@@ -16,6 +16,7 @@ interface CheckBoxInput {
 }
 
 interface TextInput {
+    answer: string
     element: string
     type: string
     question: string
@@ -24,6 +25,7 @@ interface TextInput {
 }
 
 interface TextArea {
+    answer: string
     element: string
     question: string
     required: boolean

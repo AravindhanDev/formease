@@ -12,11 +12,12 @@ interface DateProps {
     index: number
     value: string
     required: boolean
+    userAnswer: string
 }
 
-function DatePick({ index, value, required }: DateProps) {
+function DatePick({ index, value, required, userAnswer }: DateProps) {
     const [isCheck, setCheck] = useState(required)
-    const [answer, setAnswer] = useState("")
+    // const [answer, setAnswer] = useState("")
     const dispatch = useContext(ReducerContext)
     const currentTheme = useTheme()
     const [, setThemeTextClass] = useState("text-purple-700")
@@ -41,19 +42,27 @@ function DatePick({ index, value, required }: DateProps) {
         })
     }, [isCheck, dispatch, index])
 
-    useEffect(() => {
+    // useEffect(() => {
+    //     dispatch({
+    //         type: "UPDATE_QUESTION",
+    //         payload: {
+    //             index,
+    //             key: "answers",
+    //             value: answer,
+    //         },
+    //     })
+    // }, [answer, dispatch, index])
+
+    function handleChange(event: ChangeEvent<HTMLInputElement>) {
+        const answer = event.target.value
         dispatch({
             type: "UPDATE_QUESTION",
             payload: {
                 index,
-                key: "answers",
+                key: "answer",
                 value: answer,
             },
         })
-    }, [answer, dispatch, index])
-
-    function handleChange(event: ChangeEvent<HTMLInputElement>) {
-        setAnswer(event.target.value)
     }
 
     function deleteItem() {
@@ -73,7 +82,7 @@ function DatePick({ index, value, required }: DateProps) {
             <div>
                 <DatePickInput
                     type="date"
-                    value={undefined}
+                    value={userAnswer}
                     size={"text-base"}
                     onChange={handleChange}
                 />
