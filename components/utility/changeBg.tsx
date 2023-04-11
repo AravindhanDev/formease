@@ -4,6 +4,7 @@ function setBackgroundColor(color: string) {
 }
 
 export function checkState(currentTheme: string) {
+    console.log(currentTheme)
     if (currentTheme === "purple") {
         setBackgroundColor("#F3E8FF")
     }
