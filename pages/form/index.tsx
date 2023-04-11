@@ -62,12 +62,15 @@ function Home() {
                                     (question as CheckBoxInput).type ===
                                     "checkbox"
                                 ) {
+                                    const checkBoxInput =
+                                        question as CheckBoxInput
                                     return (
                                         <CheckBoxGroup
                                             key={index}
                                             index={index}
-                                            value={question.question}
-                                            required={question.required}
+                                            value={checkBoxInput.question}
+                                            required={checkBoxInput.required}
+                                            userAnswer={checkBoxInput?.answer}
                                         />
                                     )
                                 } else if (

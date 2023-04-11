@@ -24,6 +24,7 @@ function CheckBox({
     handleChange,
     index,
     deleteItem,
+    answers,
     setAnswers,
 }: CheckBoxProps) {
     const currentTheme = useTheme()
@@ -56,6 +57,7 @@ function CheckBox({
         <div className="flex items-center mb-5">
             <input
                 type="checkbox"
+                checked={answers.includes(item)}
                 className={`w-5 h-5 ${themeAccentClass} cursor-pointer`}
                 onClick={() => handleClick(item)}
             />

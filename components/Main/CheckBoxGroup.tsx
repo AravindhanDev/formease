@@ -19,9 +19,15 @@ interface CheckBoxGroupProps {
     index: number
     value: string
     required: boolean
+    userAnswer: string
 }
 
-function CheckBoxGroup({ index, value, required }: CheckBoxGroupProps) {
+function CheckBoxGroup({
+    index,
+    value,
+    required,
+    userAnswer,
+}: CheckBoxGroupProps) {
     const dispatch = useContext(ReducerContext)
     const [isCheck, setCheck] = useState(required)
     const [answers, setAnswers] = useState<string[]>([])
@@ -29,6 +35,26 @@ function CheckBoxGroup({ index, value, required }: CheckBoxGroupProps) {
     const currentTheme = useTheme()
     const [themeTextClass, setThemeTextClass] = useState("text-purple-700")
     const [, setThemeBorderClass] = useState("border-purple-700")
+
+    useEffect(() => {
+        let formState: any = localStorage.getItem("formState")
+        if (formState) {
+            formState = JSON.parse(formState)
+            if (
+                formState?.questions?.length &&
+                formState.questions[index]?.options
+            ) {
+                setCheckBoxItems(formState?.questions[index].options)
+            }
+            if (
+                formState?.questions?.length &&
+                formState.questions[index]?.answer
+            ) {
+                let answers = formState?.questions[index].answer
+                setAnswers([...answers])
+            }
+        }
+    }, [index])
 
     useEffect(() => {
         setCurrentTheme({
@@ -43,11 +69,15 @@ function CheckBoxGroup({ index, value, required }: CheckBoxGroupProps) {
             type: "UPDATE_QUESTION",
             payload: {
                 index,
-                key: "answers",
+                key: "answer",
                 value: answers,
             },
         })
     }, [answers, dispatch, index])
+
+    const deleteQuestion = useCallback(() => {
+        dispatch({ type: "DELETE_QUESTION", payload: { index } })
+    }, [dispatch, index])
 
     const updateCheckBoxState = useCallback(
         (value: string[]) => {
@@ -64,7 +94,7 @@ function CheckBoxGroup({ index, value, required }: CheckBoxGroupProps) {
         if (checkBoxItems.length === 0) {
             deleteQuestion()
         }
-    }, [checkBoxItems, updateCheckBoxState])
+    }, [checkBoxItems, updateCheckBoxState, deleteQuestion])
 
     function handleChange(event: ChangeEvent<HTMLInputElement>, index: number) {
         setCheckBoxItems((prevItems: string[]) => {
@@ -80,10 +110,6 @@ function CheckBoxGroup({ index, value, required }: CheckBoxGroupProps) {
 
     function addOption() {
         setCheckBoxItems((prevItems) => [...prevItems, "New Option"])
-    }
-
-    function deleteQuestion() {
-        dispatch({ type: "DELETE_QUESTION", payload: { index } })
     }
 
     function deleteItem(id: number) {

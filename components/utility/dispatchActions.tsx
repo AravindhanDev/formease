@@ -89,6 +89,7 @@ function addCheckBox(dispatch: any) {
                 question: "",
                 options: [],
                 required: false,
+                answer: "",
             },
         },
     })

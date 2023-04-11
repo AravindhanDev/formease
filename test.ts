@@ -9,6 +9,7 @@ interface RadioInput {
 }
 
 interface CheckBoxInput {
+    answer: string
     element: string
     type: string
     question: string

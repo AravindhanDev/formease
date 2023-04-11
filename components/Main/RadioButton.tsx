@@ -3,7 +3,7 @@ import { ChangeEvent, useContext, useEffect } from "react"
 import { useState } from "react"
 import { setCurrentTheme } from "../utility/themeValidation"
 import { useTheme } from "../ThemeProvider"
-import { FormStateContext, ReducerContext } from "../FormStateProvider"
+import { ReducerContext } from "../FormStateProvider"
 
 interface RadioButtonProps {
     item: string
