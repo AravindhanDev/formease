@@ -35,6 +35,7 @@ function Home() {
     }, [dispatch])
 
     useEffect(() => {
+        console.log(state)
         dispatch({ type: "SAVE_FORM" })
     }, [state, dispatch])
 

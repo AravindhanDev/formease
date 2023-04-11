@@ -1,8 +1,14 @@
 import Form from "@/components/Home/Form"
 import FormBox from "@/components/Home/FormBox"
 import FormNavbar from "@/components/Home/FormNavbar"
+import { useEffect } from "react"
 
 function forms() {
+    useEffect(() => {
+        document.body.style.display = "block"
+        document.documentElement.style.visibility = "visible"
+    }, [])
+
     return (
         <>
             <FormNavbar />

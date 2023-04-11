@@ -64,7 +64,7 @@ function RadioButton({
             <div className="cursor-pointer">
                 <CloseIcon
                     className="text-gray-500"
-                    onClick={() => deleteItem(index)}
+                    onClick={() => deleteItem(id)}
                 />
             </div>
         </div>
