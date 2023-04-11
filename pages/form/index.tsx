@@ -21,6 +21,12 @@ function Home() {
     const currentTheme = useTheme()
 
     useEffect(() => {
+        document.body.style.display = "block"
+        document.documentElement.style.visibility = "visible"
+    }, [])
+
+    useEffect(() => {
+        localStorage.setItem("currentTheme", currentTheme)
         checkState(currentTheme)
     }, [currentTheme])
 

@@ -16,7 +16,13 @@
     }
 }
 
+html {
+    visibility: hidden;
+}
+
+
 body {
+    display: none;
     font-family: 'Poppins', sans-serif;
     background-color: var(--bg-color);
 }

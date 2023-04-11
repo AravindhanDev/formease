@@ -1,10 +1,8 @@
 function setBackgroundColor(color: string) {
-    console.log(document.documentElement.style.getPropertyValue(`--bg-color`))
     document.documentElement.style.setProperty(`--bg-color`, color)
 }
 
 export function checkState(currentTheme: string) {
-    console.log(currentTheme)
     if (currentTheme === "purple") {
         setBackgroundColor("#F3E8FF")
     }

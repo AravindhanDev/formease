@@ -16,7 +16,14 @@ export function useThemeUpdate() {
 }
 
 function ThemeProvider({ children }: ThemeProviderProps) {
-    const [theme, setTheme] = useState<string>("purple")
+    const [theme, setTheme] = useState<string>(() => {
+        if (typeof window !== "undefined") {
+            const storedTheme = localStorage.getItem("currentTheme")
+            return storedTheme || "purple"
+        } else {
+            return "purple"
+        }
+    })
 
     function toggleTheme(theme: string) {
         setTheme(theme)
