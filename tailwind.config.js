@@ -12,6 +12,7 @@ module.exports = {
         extend: {
             boxShadow: {
                 "custom-1": "0 2px 1px #bbb, -2px -2px 2px #eee",
+                "inset-negative": "-10px -10px 20px #333",
             },
         },
         screens: {

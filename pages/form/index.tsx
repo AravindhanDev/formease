@@ -13,7 +13,7 @@ import DatePick from "@/components/Main/DatePick"
 import TimePick from "@/components/Main/TimePick"
 import { DateInput, TimeInput } from "@/components/FormJson"
 import { checkState } from "@/components/utility/changeBg"
-import { useTheme, useThemeUpdate } from "@/components/ThemeProvider"
+import { useTheme } from "@/components/ThemeProvider"
 
 function Home() {
     const state = useContext(FormStateContext)
