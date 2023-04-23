@@ -2,14 +2,20 @@ import { useEffect, useRef } from "react"
 import Image from "next/image"
 import login from "@/public/login.jpg"
 import Link from "next/link"
+import { useRouter } from "next/router"
 
-function Register() {
+function Login() {
+    const router = useRouter()
     const emailRef = useRef<HTMLInputElement>(null)
     const passwordRef = useRef<HTMLInputElement>(null)
 
     useEffect(() => {
         document.body.style.display = "block"
         document.documentElement.style.visibility = "visible"
+        const auth = localStorage.getItem("auth")
+        if (auth !== null) {
+            router.replace("/forms")
+        }
     }, [])
 
     async function handleClick(event: { preventDefault: () => void }) {
@@ -25,10 +31,12 @@ function Register() {
             },
             body: JSON.stringify(responseObj),
         }
-        console.log(options)
-        // const response = await fetch("/api/register", options)
-        // const res = await response.json()
-        // console.log(res)
+        const response = await fetch("/api/login", options)
+        const res = await response.json()
+        if (res.auth) {
+            localStorage.setItem("auth", JSON.stringify(true))
+            router.replace("/forms")
+        }
     }
 
     return (
@@ -110,4 +118,4 @@ function Register() {
     )
 }
 
-export default Register
+export default Login

@@ -1,15 +1,21 @@
-import { FormEventHandler, useEffect, useRef } from "react"
+import { useEffect, useRef } from "react"
 import Image from "next/image"
 import abstract from "@/public/abstract.jpg"
 import Link from "next/link"
+import { useRouter } from "next/router"
 
 function Register() {
+    const router = useRouter()
     const emailRef = useRef<HTMLInputElement>(null)
     const passwordRef = useRef<HTMLInputElement>(null)
 
     useEffect(() => {
         document.body.style.display = "block"
         document.documentElement.style.visibility = "visible"
+        const auth = localStorage.getItem("auth")
+        if (auth !== null) {
+            router.replace("/forms")
+        }
     }, [])
 
     async function handleClick(event: { preventDefault: () => void }) {
@@ -25,10 +31,12 @@ function Register() {
             },
             body: JSON.stringify(responseObj),
         }
-        console.log(options)
-        // const response = await fetch("/api/register", options)
-        // const res = await response.json()
-        // console.log(res)
+        const response = await fetch("/api/register", options)
+        const res = await response.json()
+        if (res.created) {
+            localStorage.setItem("auth", JSON.stringify(true))
+            router.replace("/forms")
+        }
     }
 
     return (

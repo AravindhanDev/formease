@@ -1,12 +1,19 @@
 import Form from "@/components/Home/Form"
 import FormBox from "@/components/Home/FormBox"
 import FormNavbar from "@/components/Home/FormNavbar"
+import { useRouter } from "next/router"
 import { useEffect } from "react"
 
 function Forms() {
+    const router = useRouter()
+
     useEffect(() => {
         document.body.style.display = "block"
         document.documentElement.style.visibility = "visible"
+        const auth = localStorage.getItem("auth")
+        if (auth === null) {
+            router.replace("/login")
+        }
     }, [])
 
     return (

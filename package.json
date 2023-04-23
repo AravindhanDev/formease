@@ -1,32 +1,38 @@
 {
-  "name": "formease",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@emotion/react": "^11.10.6",
-    "@emotion/styled": "^11.10.6",
-    "@mui/icons-material": "^5.11.16",
-    "@mui/material": "^5.11.16",
-    "@next/font": "^13.2.4",
-    "@types/node": "18.15.11",
-    "@types/react": "18.0.33",
-    "@types/react-dom": "18.0.11",
-    "eslint": "8.37.0",
-    "eslint-config-next": "13.2.4",
-    "next": "13.2.4",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "typescript": "5.0.3"
-  },
-  "devDependencies": {
-    "autoprefixer": "^10.4.14",
-    "postcss": "^8.4.21",
-    "tailwindcss": "^3.3.1"
-  }
+    "name": "formease",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
+    },
+    "dependencies": {
+        "@emotion/react": "^11.10.6",
+        "@emotion/styled": "^11.10.6",
+        "@mui/icons-material": "^5.11.16",
+        "@mui/material": "^5.11.16",
+        "@next/font": "^13.2.4",
+        "@prisma/client": "^4.13.0",
+        "@types/node": "18.15.11",
+        "@types/react": "18.0.33",
+        "@types/react-dom": "18.0.11",
+        "bcrypt": "^5.1.0",
+        "cookie": "^0.5.0",
+        "eslint": "8.37.0",
+        "eslint-config-next": "13.2.4",
+        "next": "13.2.4",
+        "react": "18.2.0",
+        "react-dom": "18.2.0",
+        "typescript": "5.0.3"
+    },
+    "devDependencies": {
+        "@types/bcrypt": "^5.0.0",
+        "@types/cookie": "^0.5.1",
+        "autoprefixer": "^10.4.14",
+        "postcss": "^8.4.21",
+        "prisma": "^4.13.0",
+        "tailwindcss": "^3.3.1"
+    }
 }
