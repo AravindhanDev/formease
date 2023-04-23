@@ -7,7 +7,7 @@ interface FormBoxProps {
 
 function FormBox({ text, imgSrc }: FormBoxProps) {
     return (
-        <div className="pt-3 mr-4">
+        <div className="pt-3 mr-4 whitespace-normal" style={{ width: "180px" }}>
             <div className="rounded hover:shadow-lg shadow-md cursor-pointer box-custom p-5 bg-white border border-gray-300">
                 <Image src={imgSrc} width={80} height={80} alt="" />
             </div>

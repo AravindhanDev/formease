@@ -20,10 +20,50 @@ function Forms() {
         <>
             <FormNavbar />
             <section className="mt-5 flex flex-wrap">
-                <div className="w-3/5 md:w-4/5 sm:p-5 xs:p-5 sm:w-full xs:w-full flex flex-col">
+                <div className="sm:p-5 xs:p-5 sm:w-full xs:w-full flex flex-col">
                     <h3 className="font-medium">Start a new form</h3>
                     <div className="flex flex-wrap">
                         <FormBox text="Blank Survey" imgSrc="/add.png" />
+                        <FormBox
+                            text="Typescript Survey"
+                            imgSrc="/survey.png"
+                        />
+                        <FormBox
+                            text="Typescript Survey"
+                            imgSrc="/survey.png"
+                        />
+                        <FormBox
+                            text="Typescript Survey"
+                            imgSrc="/survey.png"
+                        />
+                        <FormBox
+                            text="Typescript Survey"
+                            imgSrc="/survey.png"
+                        />
+                        <FormBox
+                            text="Typescript Survey"
+                            imgSrc="/survey.png"
+                        />
+                        <FormBox
+                            text="Typescript Survey"
+                            imgSrc="/survey.png"
+                        />
+                        <FormBox
+                            text="Typescript programming language Survey"
+                            imgSrc="/survey.png"
+                        />
+                        <FormBox
+                            text="Typescript Survey"
+                            imgSrc="/survey.png"
+                        />
+                        <FormBox
+                            text="Typescript Survey"
+                            imgSrc="/survey.png"
+                        />
+                        <FormBox
+                            text="Typescript Survey"
+                            imgSrc="/survey.png"
+                        />
                         <FormBox
                             text="Typescript Survey"
                             imgSrc="/survey.png"
