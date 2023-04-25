@@ -3,6 +3,7 @@ CREATE TABLE `Researchers` (
     `id` VARCHAR(255) NOT NULL,
     `email` VARCHAR(255) NOT NULL,
     `password` TEXT NOT NULL,
+    `auth` BOOLEAN NOT NULL,
 
     UNIQUE INDEX `Researchers_id_key`(`id`),
     UNIQUE INDEX `Researchers_email_key`(`email`),
@@ -19,7 +20,6 @@ CREATE TABLE `Surveys` (
     `researcherId` VARCHAR(255) NULL,
 
     UNIQUE INDEX `Surveys_id_key`(`id`),
-    UNIQUE INDEX `Surveys_title_key`(`title`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 

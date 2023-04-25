@@ -15,11 +15,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if (user) {
             const isMatch = await bcrypt.compare(password, user?.password)
             if (isMatch) {
-                res.send({auth: true, data: "correct credentials"})
+                const data = {
+                    auth: true
+                }
+                await prisma.researchers.update({
+                    where: {
+                        id: user.id
+                    },
+                    data: data
+                })
+                res.send({auth: true, message: "correct credentials", data: {id: user.id}})
             } else {
-                res.send({auth: false, data: 'incorrect password'})
+                res.send({auth: false, message: 'incorrect password'})
             }
         }
-        res.send({auth: false, data: "User not found"})
+        res.send({auth: false, message: "User not found"})
     }
 }

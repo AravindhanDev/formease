@@ -14,12 +14,13 @@ model Researchers {
   id       String    @id @unique @db.VarChar(255)
   email    String    @unique @db.VarChar(255)
   password String    @db.Text
+  auth     Boolean
   surveys  Surveys[]
 }
 
 model Surveys {
   id           String           @id @unique @db.VarChar(255)
-  title        String           @unique @db.VarChar(255)
+  title        String           @db.VarChar(255)
   description  String?          @db.Text
   created_at   DateTime         @default(now())
   updated_at   DateTime         @updatedAt

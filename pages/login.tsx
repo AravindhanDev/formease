@@ -12,10 +12,6 @@ function Login() {
     useEffect(() => {
         document.body.style.display = "block"
         document.documentElement.style.visibility = "visible"
-        const auth = localStorage.getItem("auth")
-        if (auth !== null) {
-            router.replace("/forms")
-        }
     }, [])
 
     async function handleClick(event: { preventDefault: () => void }) {
@@ -34,8 +30,7 @@ function Login() {
         const response = await fetch("/api/login", options)
         const res = await response.json()
         if (res.auth) {
-            localStorage.setItem("auth", JSON.stringify(true))
-            router.replace("/forms")
+            router.replace(`/${res.data.id}/surveys`)
         }
     }
 
