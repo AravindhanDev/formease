@@ -14,11 +14,13 @@ import TimePick from "@/components/Main/TimePick"
 import { DateInput, TimeInput } from "@/components/FormJson"
 import { checkState } from "@/components/utility/changeBg"
 import { useTheme } from "@/components/ThemeProvider"
+import { useRouter } from "next/router"
 
 function Home() {
     const state = useContext(FormStateContext)
     const dispatch = useContext(ReducerContext)
     const currentTheme = useTheme()
+    const router = useRouter()
 
     useEffect(() => {
         document.body.style.display = "block"

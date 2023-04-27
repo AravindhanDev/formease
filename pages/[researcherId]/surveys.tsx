@@ -1,22 +1,17 @@
 import FormNavbar from "@/components/Home/FormNavbar"
-import { useRouter } from "next/router"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import SortByAlphaIcon from "@mui/icons-material/SortByAlpha"
 import PollOutlinedIcon from "@mui/icons-material/PollOutlined"
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined"
-import { useState } from "react"
+import Cookie from "js-cookie"
+
+type Auth = {
+    sessionId: string
+    userId: string
+}
 
 function Forms() {
     const [surveys, setSurveys] = useState<any[]>([])
-    const router = useRouter()
-
-    async function isAuthed(researcherId: any) {
-        const isAuth = await fetch(`/api/isAuth?researcherId=${researcherId}`)
-        const response = await isAuth.json()
-        if (!response.isAuth) {
-            router.replace("/login")
-        }
-    }
 
     async function renderSurveys() {
         const response = await fetch("/api/getSurveys")
@@ -27,8 +22,10 @@ function Forms() {
     useEffect(() => {
         document.body.style.display = "block"
         document.documentElement.style.visibility = "visible"
-        const { researcherId } = router.query
-        isAuthed(researcherId)
+        let auth = Cookie.get("auth")
+        if (auth === undefined) {
+            location.href = "/login"
+        }
         renderSurveys()
     }, [])
 
@@ -39,32 +36,39 @@ function Forms() {
                 "Content-Type": "application/json",
             },
         })
-        const res = await response.json()
-        console.log(res)
+        await response.json()
         renderSurveys()
     }
 
     async function handleClick() {
+        let authCookie = Cookie.get("auth")
+        if (authCookie === undefined) return
+        let auth: Auth = JSON.parse(authCookie)
         const options = {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                researcherId: router.query.researcherId,
+                researcherId: auth.userId,
             }),
         }
         const response = await fetch("/api/createSurvey", options)
         const res = await response.json()
+        console.log(res)
         renderSurveys()
-        router.replace("/form")
+        location.href = `/forms/${res.data.id}`
+    }
+
+    function goToSurvey(surveyId: string) {
+        location.href = `/forms/${surveyId}`
     }
 
     return (
         <>
             <FormNavbar />
             <section className="mt-5 flex flex-wrap">
-                <div className="sm:p-5 xs:p-5 sm:w-full xs:w-full flex flex-col">
+                <div className="sm:p-4 xs:p-4 sm:w-full xs:w-full flex flex-col">
                     <div className="mt-5 flex justify-between border-green-700">
                         <div
                             onClick={handleClick}
@@ -87,21 +91,27 @@ function Forms() {
                         )}
                         {surveys.map((survey) => (
                             <div
+                                onClick={() => goToSurvey(survey.id)}
                                 key={survey.id}
-                                className="py-3 pr-2 cursor-pointer hover:bg-green-100 flex justify-between"
+                                className="py-3 px-2 cursor-pointer hover:bg-green-100 flex justify-between"
                             >
                                 <div>
                                     <span className="pr-5">
                                         <PollOutlinedIcon color="success" />
                                     </span>
-                                    <span>{survey.title}</span>
+                                    <span>
+                                        {survey.title || "Untitled Form"}
+                                    </span>
                                 </div>
                                 <div>
                                     <span className="pr-6">
                                         {survey.created_at}
                                     </span>
                                     <span
-                                        onClick={() => deleteSurvey(survey.id)}
+                                        onClick={(e) => {
+                                            e.stopPropagation()
+                                            deleteSurvey(survey.id)
+                                        }}
                                     >
                                         <DeleteOutlinedIcon />
                                     </span>

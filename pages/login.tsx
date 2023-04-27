@@ -2,16 +2,26 @@ import { useEffect, useRef } from "react"
 import Image from "next/image"
 import login from "@/public/login.jpg"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import Cookie from "js-cookie"
+import { v4 as uuid } from "uuid"
+
+type Auth = {
+    sessionId: string
+    userId: string
+}
 
 function Login() {
-    const router = useRouter()
     const emailRef = useRef<HTMLInputElement>(null)
     const passwordRef = useRef<HTMLInputElement>(null)
 
     useEffect(() => {
         document.body.style.display = "block"
         document.documentElement.style.visibility = "visible"
+        let authCookie = Cookie.get("auth")
+        if (authCookie) {
+            let auth: Auth = JSON.parse(authCookie)
+            location.href = `/${auth.userId}/surveys/`
+        }
     }, [])
 
     async function handleClick(event: { preventDefault: () => void }) {
@@ -29,8 +39,19 @@ function Login() {
         }
         const response = await fetch("/api/login", options)
         const res = await response.json()
+        const authCookie = {
+            sessionId: uuid(),
+            userId: res.data.id,
+        }
         if (res.auth) {
-            router.replace(`/${res.data.id}/surveys`)
+            let auth = JSON.stringify(authCookie)
+            Cookie.set("auth", auth, {
+                expires: 1 / 24,
+                secure: true,
+                sameSite: "strict",
+                path: "/",
+            })
+            location.href = `/${res.data.id}/surveys`
         }
     }
 

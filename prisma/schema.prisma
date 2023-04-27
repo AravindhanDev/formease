@@ -14,7 +14,6 @@ model Researchers {
   id       String    @id @unique @db.VarChar(255)
   email    String    @unique @db.VarChar(255)
   password String    @db.Text
-  auth     Boolean
   surveys  Surveys[]
 }
 

@@ -2,16 +2,26 @@ import { useEffect, useRef } from "react"
 import Image from "next/image"
 import abstract from "@/public/abstract.jpg"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import Cookie from "js-cookie"
+import { v4 as uuid } from "uuid"
+
+type Auth = {
+    sessionId: string
+    userId: string
+}
 
 function Register() {
-    const router = useRouter()
     const emailRef = useRef<HTMLInputElement>(null)
     const passwordRef = useRef<HTMLInputElement>(null)
 
     useEffect(() => {
         document.body.style.display = "block"
         document.documentElement.style.visibility = "visible"
+        let authCookie = Cookie.get("auth")
+        if (authCookie) {
+            let auth: Auth = JSON.parse(authCookie)
+            location.href = `/${auth.userId}/surveys/`
+        }
     }, [])
 
     async function handleClick(event: { preventDefault: () => void }) {
@@ -29,9 +39,20 @@ function Register() {
         }
         const response = await fetch("/api/register", options)
         const res = await response.json()
-        console.log(res)
+        const auth = {
+            sessionId: uuid(),
+            userId: res.data.id,
+        }
         if (res.created) {
-            router.replace(`/${res.data.id}/surveys`)
+            Cookie.set("auth", JSON.stringify(auth), {
+                expires: 1 / 24,
+                secure: true,
+                sameSite: "strict",
+                path: "/",
+            })
+            location.href = `/${res.data.id}/surveys`
+        } else {
+            alert("user already exist")
         }
     }
 

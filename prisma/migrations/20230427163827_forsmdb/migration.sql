@@ -3,7 +3,6 @@ CREATE TABLE `Researchers` (
     `id` VARCHAR(255) NOT NULL,
     `email` VARCHAR(255) NOT NULL,
     `password` TEXT NOT NULL,
-    `auth` BOOLEAN NOT NULL,
 
     UNIQUE INDEX `Researchers_id_key`(`id`),
     UNIQUE INDEX `Researchers_email_key`(`email`),
