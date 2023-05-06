@@ -9,15 +9,14 @@ import { setCurrentTheme } from "../utility/themeValidation"
 import RenderSwitch from "../switches/RenderSwitch"
 
 interface DateProps {
-    index: number
+    index: string
     value: string
     required: boolean
-    userAnswer: string
+    deleteQuestion: (id: string) => void
 }
 
-function DatePick({ index, value, required, userAnswer }: DateProps) {
+function DatePick({ index, value, required, deleteQuestion }: DateProps) {
     const [isCheck, setCheck] = useState(required)
-    // const [answer, setAnswer] = useState("")
     const dispatch = useContext(ReducerContext)
     const currentTheme = useTheme()
     const [, setThemeTextClass] = useState("text-purple-700")
@@ -27,7 +26,7 @@ function DatePick({ index, value, required, userAnswer }: DateProps) {
         setCurrentTheme({
             currentTheme,
             setThemeTextClass,
-            setThemeBorderClass,
+            setThemeBorderClass
         })
     }, [currentTheme])
 
@@ -37,21 +36,10 @@ function DatePick({ index, value, required, userAnswer }: DateProps) {
             payload: {
                 index: index,
                 key: "required",
-                value: isCheck,
-            },
+                value: isCheck
+            }
         })
     }, [isCheck, dispatch, index])
-
-    // useEffect(() => {
-    //     dispatch({
-    //         type: "UPDATE_QUESTION",
-    //         payload: {
-    //             index,
-    //             key: "answers",
-    //             value: answer,
-    //         },
-    //     })
-    // }, [answer, dispatch, index])
 
     function handleChange(event: ChangeEvent<HTMLInputElement>) {
         const answer = event.target.value
@@ -60,13 +48,9 @@ function DatePick({ index, value, required, userAnswer }: DateProps) {
             payload: {
                 index,
                 key: "answer",
-                value: answer,
-            },
+                value: answer
+            }
         })
-    }
-
-    function deleteItem() {
-        dispatch({ type: "DELETE_QUESTION", payload: { index } })
     }
 
     return (
@@ -82,7 +66,6 @@ function DatePick({ index, value, required, userAnswer }: DateProps) {
             <div>
                 <DatePickInput
                     type="date"
-                    value={userAnswer}
                     size={"text-base"}
                     onChange={handleChange}
                 />
@@ -90,7 +73,7 @@ function DatePick({ index, value, required, userAnswer }: DateProps) {
             <div className="text-right">
                 <span
                     className="cursor-pointer border-r-4 px-2"
-                    onClick={deleteItem}
+                    onClick={() => deleteQuestion(index)}
                 >
                     <DeleteOutlinedIcon className="text-gray-500 text-3xl" />
                 </span>
@@ -98,6 +81,7 @@ function DatePick({ index, value, required, userAnswer }: DateProps) {
                 <span className="mx-2 px-2">
                     Required
                     <RenderSwitch
+                        index={index}
                         currentTheme={currentTheme}
                         isCheck={isCheck}
                         setCheck={setCheck}

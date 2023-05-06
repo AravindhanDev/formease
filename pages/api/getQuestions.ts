@@ -4,13 +4,12 @@ import { NextApiRequest, NextApiResponse } from "next"
 const prisma = new PrismaClient()
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    if (req.method === "DELETE") {
+    if (req.method === "GET") {
         try {
-            if (typeof req.query.surveyId === 'string') 
-            {
-                const response = await prisma.surveys.delete({
+            if (typeof req.query.surveyId === 'string') {
+                const response = await prisma.questionarries.findMany({
                     where: {
-                        id: req.query.surveyId
+                        surveyId: req.query.surveyId
                     }
                 })
                 res.send({data: response})

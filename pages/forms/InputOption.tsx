@@ -1,22 +1,27 @@
-import { useContext } from "react"
 import SubjectIcon from "@mui/icons-material/Subject"
 import NotesIcon from "@mui/icons-material/Notes"
 import RadioButtonCheckedOutlinedIcon from "@mui/icons-material/RadioButtonCheckedOutlined"
 import DateRangeIcon from "@mui/icons-material/DateRange"
 import CheckBoxOutlinedIcon from "@mui/icons-material/CheckBoxOutlined"
 import AccessTimeIcon from "@mui/icons-material/AccessTime"
-import { ReducerContext } from "@/components/FormStateProvider"
-import {
-    addShortAnswer,
-    addParagraph,
-    addRadioButton,
-    addCheckBox,
-    addDatePicker,
-    addTimePicker,
-} from "@/components/utility/dispatchActions"
+import createQuestion from "@/components/utility/dispatchActions"
+import { useRouter } from "next/router"
 
-function InputOption() {
-    const dispatch = useContext(ReducerContext)
+type InputOptionProps = {
+    questions: any
+    setQuestions: any
+}
+
+function InputOption({ questions, setQuestions }: InputOptionProps) {
+    const router = useRouter()
+
+    function sendApiRequest(type: string) {
+        if (router.query) {
+            if (typeof router.query.surveyId === "string") {
+                createQuestion(type, router.query.surveyId, setQuestions)
+            }
+        }
+    }
 
     return (
         <div className="absolute sm:right-40 w-52 top-12 bg-white p-4 xs:p-2 rounded shadow-lg">
@@ -24,7 +29,7 @@ function InputOption() {
                 <li
                     onMouseDown={(event) => {
                         event?.stopPropagation()
-                        addShortAnswer(dispatch)
+                        sendApiRequest("text")
                     }}
                     className="text-lg xs:text-base py-3 px-5 cursor-pointer hover:bg-gray-100"
                 >
@@ -33,8 +38,8 @@ function InputOption() {
                 </li>
                 <li
                     onMouseDown={(event) => {
-                        addParagraph(dispatch)
                         event?.stopPropagation()
+                        sendApiRequest("paragraph")
                     }}
                     className="text-lg py-3 xs:text-base px-5 cursor-pointer hover:bg-gray-100"
                 >
@@ -43,8 +48,8 @@ function InputOption() {
                 </li>
                 <li
                     onMouseDown={(event) => {
-                        addCheckBox(dispatch)
                         event?.stopPropagation()
+                        sendApiRequest("checkbox")
                     }}
                     className="text-lg py-3 xs:text-base px-5 cursor-pointer hover:bg-gray-100"
                 >
@@ -53,8 +58,8 @@ function InputOption() {
                 </li>
                 <li
                     onMouseDown={(event) => {
-                        addRadioButton(dispatch)
                         event?.stopPropagation()
+                        sendApiRequest("radio")
                     }}
                     className="text-lg py-3 xs:text-base px-5 cursor-pointer hover:bg-gray-100"
                 >
@@ -63,8 +68,8 @@ function InputOption() {
                 </li>
                 <li
                     onMouseDown={(event) => {
-                        addDatePicker(dispatch)
                         event?.stopPropagation()
+                        sendApiRequest("date")
                     }}
                     className="text-lg py-3 px-5 xs:text-base cursor-pointer hover:bg-gray-100"
                 >
@@ -73,8 +78,8 @@ function InputOption() {
                 </li>
                 <li
                     onMouseDown={(event) => {
-                        addTimePicker(dispatch)
                         event?.stopPropagation()
+                        sendApiRequest("time")
                     }}
                     className="text-lg py-3 px-5 xs:text-base cursor-pointer hover:bg-gray-100"
                 >

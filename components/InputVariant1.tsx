@@ -1,25 +1,62 @@
-import React, { ChangeEvent, useContext } from "react"
-import { ReducerContext } from "./FormStateProvider"
-import { updateSpecificQuestion } from "./utility/dispatchActions"
+import { ChangeEvent, useEffect, useState, useCallback } from "react"
 
 interface InputProps {
-    index: number
-    value: string | undefined
+    index: string
+    value: string
     type: string
     placeholder: string
 }
 
-function InputVariant1(props: InputProps) {
-    const dispatch = useContext(ReducerContext)
+function useDebounce(value: string, delay: number) {
+    const [debouncedValue, setDebouncedValue] = useState(value)
 
-    function handleChange(event: ChangeEvent<HTMLInputElement>, index: number) {
-        updateSpecificQuestion(dispatch, index, "question", event.target.value)
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedValue(value)
+        }, delay)
+
+        return () => {
+            clearTimeout(timer)
+        }
+    }, [value, delay])
+
+    return debouncedValue
+}
+
+function InputVariant1({ value, index, type, placeholder }: InputProps) {
+    const [question, setQuestion] = useState(value)
+    const debouncedQuestion = useDebounce(question, 500)
+
+    const saveQuestion = useCallback(async () => {
+        const options = {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                id: index,
+                question: debouncedQuestion
+            })
+        }
+        const response = await fetch("/api/updateQuestion", options)
+        const res = await response.json()
+        console.log(res)
+    }, [debouncedQuestion, index])
+
+    useEffect(() => {
+        saveQuestion()
+    }, [debouncedQuestion, saveQuestion])
+
+    function handleChange(event: ChangeEvent<HTMLInputElement>) {
+        setQuestion(event.target.value)
     }
 
     return (
         <input
-            onChange={(event) => handleChange(event, props.index)}
-            {...props}
+            onChange={handleChange}
+            value={question}
+            type={type}
+            placeholder={placeholder}
             className="mb-4 focus:bg-purple-100 font-medium focus:font-normal text-md focus:border-b-2 focus:p-3 border-gray-300 w-full focus:outline-none transition-colors duration-500"
         />
     )

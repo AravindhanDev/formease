@@ -1,18 +1,23 @@
-import { useState, useContext, useEffect } from "react"
+import { useState, useEffect } from "react"
 import PollIcon from "@mui/icons-material/Poll"
 import ColorLensOutlinedIcon from "@mui/icons-material/ColorLensOutlined"
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded"
 import Button from "../Button"
 import InputOption from "@/pages/forms/InputOption"
-import { FormStateContext } from "@/components/FormStateProvider"
 import { setCurrentTheme } from "../utility/themeValidation"
 import { useTheme } from "../ThemeProvider"
 import ColorBox from "../ColorBox"
-function Navbar() {
+
+type NavbarProps = {
+    title: string
+    questions: any
+    setQuestions: any
+}
+
+function Navbar({ title, questions, setQuestions }: NavbarProps) {
     const [current, setCurrent] = useState<number>(1)
     const [inputOption, setInputOption] = useState<boolean>(false)
     const [colorBox, setColorBox] = useState<boolean>(false)
-    const state = useContext(FormStateContext)
     const currentTheme = useTheme()
     const [themeTextClass, setThemeTextClass] = useState("text-purple-700")
     const [themeBorderClass, setThemeBorderClass] =
@@ -22,26 +27,29 @@ function Navbar() {
         setCurrentTheme({
             currentTheme,
             setThemeTextClass,
-            setThemeBorderClass,
+            setThemeBorderClass
         })
     }, [currentTheme])
 
     return (
-        // fixed w-full
         <nav className="bg-white shadow-sm">
             <div className="p-4 flex justify-between">
                 <div className="left text-3xl flex items-center sm:block xs:hidden">
                     <span>
                         <PollIcon className={`text-4xl ${themeTextClass}`} />
                     </span>
-                    <span className="px-2 text-xl font-medium text-gray-600">
-                        {state?.title}
+                    <span className="px-2 text-lg font-medium text-gray-600">
+                        {title === "" ? "Untitled Form" : title}
                     </span>
                 </div>
                 <div className="">
-                    {inputOption && <InputOption />}
+                    {inputOption && (
+                        <InputOption
+                            questions={questions}
+                            setQuestions={setQuestions}
+                        />
+                    )}
                     {colorBox && <ColorBox />}
-
                     <span
                         className="mr-4 cursor-pointer"
                         tabIndex={0}

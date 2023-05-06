@@ -1,5 +1,5 @@
 import { Switch } from "@mui/material"
-import React, { Dispatch, SetStateAction } from "react"
+import React, { Dispatch, SetStateAction, useCallback, useEffect } from "react"
 import YellowSwitch from "./YellowSwitch"
 import PinkSwitch from "./PinkSwitch"
 import RedSwitch from "./RedSwitch"
@@ -8,67 +8,75 @@ import TealSwitch from "./TealSwitch"
 import CyanSwitch from "./CyanSwitch"
 
 type RenderSwitchProps = {
+    index: string
     currentTheme: string
     isCheck: boolean
     setCheck: Dispatch<SetStateAction<boolean>>
 }
 
-function RenderSwitch({ currentTheme, isCheck, setCheck }: RenderSwitchProps) {
+function RenderSwitch({
+    index,
+    currentTheme,
+    isCheck,
+    setCheck
+}: RenderSwitchProps) {
+    const updateRequired = useCallback(async () => {
+        const options = {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                id: index,
+                required: isCheck
+            })
+        }
+        const response = await fetch("/api/updateRequired", options)
+        const res = await response.json()
+    }, [index, isCheck])
+
+    useEffect(() => {
+        updateRequired()
+    }, [isCheck, index, updateRequired])
+
+    function handleCheck() {
+        setCheck((prevCheck: boolean) => !prevCheck)
+    }
+
     return (
         <>
             {currentTheme === "purple" && (
                 <Switch
                     checked={isCheck}
-                    onClick={() => {
-                        setCheck((prev: boolean) => !prev)
-                    }}
+                    onClick={handleCheck}
                     color="secondary"
                 />
             )}
 
             {currentTheme === "blue" && (
-                <Switch
-                    checked={isCheck}
-                    onClick={() => {
-                        setCheck((prev: boolean) => !prev)
-                    }}
-                />
+                <Switch checked={isCheck} onClick={handleCheck} />
             )}
 
             {currentTheme === "orange" && (
                 <Switch
                     checked={isCheck}
-                    onClick={() => {
-                        setCheck((prev: boolean) => !prev)
-                    }}
+                    onClick={handleCheck}
                     color="warning"
                 />
             )}
 
             {currentTheme === "yellow" && (
-                <YellowSwitch
-                    checked={isCheck}
-                    onClick={() => {
-                        setCheck((prev: boolean) => !prev)
-                    }}
-                />
+                <YellowSwitch checked={isCheck} onClick={handleCheck} />
             )}
 
             {currentTheme === "pink" && (
-                <PinkSwitch
-                    checked={isCheck}
-                    onClick={() => {
-                        setCheck((prev: boolean) => !prev)
-                    }}
-                />
+                <PinkSwitch checked={isCheck} onClick={handleCheck} />
             )}
 
             {currentTheme === "green" && (
                 <Switch
                     checked={isCheck}
-                    onClick={() => {
-                        setCheck((prev: boolean) => !prev)
-                    }}
+                    onClick={handleCheck}
                     color="success"
                 />
             )}
@@ -76,47 +84,25 @@ function RenderSwitch({ currentTheme, isCheck, setCheck }: RenderSwitchProps) {
             {currentTheme === "gray" && (
                 <Switch
                     checked={isCheck}
-                    onClick={() => {
-                        setCheck((prev: boolean) => !prev)
-                    }}
+                    onClick={handleCheck}
                     color="default"
                 />
             )}
 
             {currentTheme === "red" && (
-                <RedSwitch
-                    checked={isCheck}
-                    onClick={() => {
-                        setCheck((prev: boolean) => !prev)
-                    }}
-                />
+                <RedSwitch checked={isCheck} onClick={handleCheck} />
             )}
 
             {currentTheme === "indigo" && (
-                <IndigoSwitch
-                    checked={isCheck}
-                    onClick={() => {
-                        setCheck((prev: boolean) => !prev)
-                    }}
-                />
+                <IndigoSwitch checked={isCheck} onClick={handleCheck} />
             )}
 
             {currentTheme === "teal" && (
-                <TealSwitch
-                    checked={isCheck}
-                    onClick={() => {
-                        setCheck((prev: boolean) => !prev)
-                    }}
-                />
+                <TealSwitch checked={isCheck} onClick={handleCheck} />
             )}
 
             {currentTheme === "cyan" && (
-                <CyanSwitch
-                    checked={isCheck}
-                    onClick={() => {
-                        setCheck((prev: boolean) => !prev)
-                    }}
-                />
+                <CyanSwitch checked={isCheck} onClick={handleCheck} />
             )}
         </>
     )

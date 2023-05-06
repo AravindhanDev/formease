@@ -9,30 +9,29 @@ import React, {
     useContext,
     useEffect,
     useCallback,
-    ChangeEvent,
+    ChangeEvent
 } from "react"
 import { useTheme } from "../ThemeProvider"
 import { setCurrentTheme } from "../utility/themeValidation"
 import RenderSwitch from "../switches/RenderSwitch"
 
 interface RadioButtonGroupProps {
-    index: number
+    index: string
     value: string
     required: boolean
-    userAnswer: string
+    deleteQuestion: (id: string) => void
 }
 
 function RadioButtonGroup({
     index,
     value,
     required,
-    userAnswer,
+    deleteQuestion
 }: RadioButtonGroupProps) {
     const [isCheck, setCheck] = useState(required)
     const dispatch = useContext(ReducerContext)
-    // const [answer, setAnswer] = useState("")
     const [radioButtonItems, setRadioButtonItems] = useState<string[]>([
-        "New Option",
+        "New Option"
     ])
     const currentTheme = useTheme()
     const [themeTextClass, setThemeTextClass] = useState("text-purple-700")
@@ -53,7 +52,7 @@ function RadioButtonGroup({
     useEffect(() => {
         setCurrentTheme({
             currentTheme,
-            setThemeTextClass,
+            setThemeTextClass
         })
     }, [currentTheme])
 
@@ -61,22 +60,18 @@ function RadioButtonGroup({
         (value: string[]) => {
             dispatch({
                 type: "UPDATE_QUESTION",
-                payload: { index, key: "options", value },
+                payload: { index, key: "options", value }
             })
         },
         [dispatch, index]
     )
 
-    const deleteQuestion = useCallback(() => {
-        dispatch({ type: "DELETE_QUESTION", payload: { index } })
-    }, [dispatch, index])
-
     useEffect(() => {
         updateRadioButtonState(radioButtonItems)
         if (radioButtonItems.length === 0) {
-            deleteQuestion()
+            deleteQuestion(index)
         }
-    }, [deleteQuestion, radioButtonItems, updateRadioButtonState])
+    }, [deleteQuestion, index, radioButtonItems, updateRadioButtonState])
 
     function handleChange(event: ChangeEvent<HTMLInputElement>, index: number) {
         setRadioButtonItems((prevItems: string[]) => {
@@ -123,10 +118,10 @@ function RadioButtonGroup({
                             handleChange={handleChange}
                             deleteItem={deleteItem}
                             index={index}
-                            userAnswer={userAnswer}
                         />
                     )
                 })}
+
                 <a
                     onClick={addOption}
                     className={`inline sm:hidden bg-gray-100 p-2 xs:text-sm rounded-md ${themeTextClass} cursor-pointer font-normal`}
@@ -146,7 +141,7 @@ function RadioButtonGroup({
                 </a>
                 <span
                     className="cursor-pointer border-x-4 px-2"
-                    onClick={deleteQuestion}
+                    onClick={() => deleteQuestion(index)}
                 >
                     <DeleteOutlinedIcon className="text-gray-500 sm:text-3xl xs:text-2xl" />
                 </span>
@@ -154,6 +149,7 @@ function RadioButtonGroup({
                 <span className="mx-2 px-2 xs:text-sm">
                     Required
                     <RenderSwitch
+                        index={index}
                         currentTheme={currentTheme}
                         isCheck={isCheck}
                         setCheck={setCheck}

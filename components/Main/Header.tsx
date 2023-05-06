@@ -1,24 +1,29 @@
 import Input from "../Input"
 import TextArea from "../TextArea"
-import {
-    FormStateContext,
-    ReducerContext,
-} from "@/components/FormStateProvider"
-import { ChangeEvent, useContext } from "react"
 import { TopBoxLayout } from "./BoxLayout"
+import { ChangeEvent } from "react"
 
-function Header() {
-    const state = useContext(FormStateContext)
-    const dispatch = useContext(ReducerContext)
+type HeaderProps = {
+    headerDetails: any
+    setHeaderDetails: any
+}
 
-    function handleChange(event: ChangeEvent<HTMLInputElement>) {
-        dispatch({ type: "SET_TITLE", payload: { title: event.target.value } })
+function Header({ headerDetails, setHeaderDetails }: HeaderProps) {
+    function setTitle(event: ChangeEvent<HTMLInputElement>) {
+        setHeaderDetails((prevDetails: any) => {
+            return {
+                ...prevDetails,
+                title: event.target.value
+            }
+        })
     }
 
-    function handleTextAreaChange(event: ChangeEvent<HTMLTextAreaElement>) {
-        dispatch({
-            type: "SET_DESCRIPTION",
-            payload: { description: event.target.value },
+    function setDescription(event: ChangeEvent<HTMLTextAreaElement>) {
+        setHeaderDetails((prevDetails: any) => {
+            return {
+                ...prevDetails,
+                description: event.target.value
+            }
         })
     }
 
@@ -26,14 +31,14 @@ function Header() {
         <TopBoxLayout>
             <Input
                 type="text"
+                value={headerDetails.title}
                 placeholder="Form title"
-                value={state?.title}
-                onChange={handleChange}
                 size={"text-xl"}
+                handleChange={setTitle}
             />
             <TextArea
-                value={state?.description}
-                onChange={handleTextAreaChange}
+                handleChange={setDescription}
+                value={headerDetails.description}
                 placeholder="Form Description"
             />
         </TopBoxLayout>

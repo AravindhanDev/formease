@@ -5,7 +5,6 @@ export interface RadioInput {
     question: string
     required: boolean
     options: string[]
-    answer: string
 }
 
 export interface CheckBoxInput {
@@ -15,7 +14,6 @@ export interface CheckBoxInput {
     question: string
     required: boolean
     options: string[]
-    answer: string[]
 }
 
 export interface TextInput {
@@ -24,7 +22,6 @@ export interface TextInput {
     type: string
     question: string
     required: boolean
-    answer: string
 }
 
 export interface DateInput {
@@ -33,7 +30,6 @@ export interface DateInput {
     type: string
     question: string
     required: boolean
-    answer: string
 }
 
 export interface TimeInput {
@@ -42,7 +38,6 @@ export interface TimeInput {
     type: string
     question: string
     required: boolean
-    answer: string
 }
 
 export interface TextArea {
@@ -51,7 +46,6 @@ export interface TextArea {
     type: string
     question: string
     required: boolean
-    answer: string
 }
 
 type Questions =
@@ -121,7 +115,7 @@ const initialState: FormInitialState = {
     title: "Untitled form",
     description: "",
     questionCount: 0,
-    questions: [],
+    questions: []
 }
 
 function reducer(state: any, action: any) {
@@ -132,32 +126,32 @@ function reducer(state: any, action: any) {
         case "SET_DESCRIPTION":
             return { ...state, description: action.payload.description }
 
-        case "LOAD_FORM": {
-            let value = localStorage.getItem("formState")
-            return value !== null ? JSON.parse(value) : initialState
-        }
+        // case "LOAD_FORM": {
+        //     let value = localStorage.getItem("formState")
+        //     return value !== null ? JSON.parse(value) : initialState
+        // }
 
-        case "SAVE_FORM":
-            localStorage.setItem("formState", JSON.stringify(state))
-            return state
+        // case "SAVE_FORM":
+        //     localStorage.setItem("formState", JSON.stringify(state))
+        //     return state
 
         case "SET_FORM_STATE":
             return {
                 title: action.payload.title,
                 description: action.payload.description,
                 questionCount: action.payload.questionCount,
-                questions: action.payload.questions,
+                questions: action.payload.questions
             }
 
         case "ADD_QUESTION":
             const question = {
                 ...action.payload.question,
-                index: state.questionCount + 1,
+                index: state.questionCount + 1
             }
             return {
                 ...state,
                 questionCount: state.questionCount + 1,
-                questions: [...state.questions, question],
+                questions: [...state.questions, question]
             }
 
         case "DELETE_QUESTION":
@@ -167,17 +161,15 @@ function reducer(state: any, action: any) {
                 }
             )
 
-            console.log(questions)
-
             return {
                 ...state,
                 questionCount: state.questionCount - 1,
-                questions,
+                questions
             }
 
         case "UPDATE_QUESTION":
             const {
-                payload: { index, key, value },
+                payload: { index, key, value }
             } = action
             const updatedQuestions = state.questions.map(
                 (question: Questions, id: number) => {

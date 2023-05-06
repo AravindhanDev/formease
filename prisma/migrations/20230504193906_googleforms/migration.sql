@@ -26,7 +26,10 @@ CREATE TABLE `Surveys` (
 CREATE TABLE `Questionarries` (
     `id` VARCHAR(255) NOT NULL,
     `question` VARCHAR(255) NOT NULL,
-    `questionNumber` INTEGER NOT NULL,
+    `options` VARCHAR(191) NOT NULL,
+    `element` VARCHAR(191) NOT NULL,
+    `type` VARCHAR(191) NOT NULL,
+    `required` BOOLEAN NOT NULL,
     `surveyId` VARCHAR(255) NULL,
 
     UNIQUE INDEX `Questionarries_id_key`(`id`),

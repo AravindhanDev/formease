@@ -9,16 +9,20 @@ import { setCurrentTheme } from "../utility/themeValidation"
 import RenderSwitch from "../switches/RenderSwitch"
 
 interface ShortAnswerProps {
-    index: number
+    index: string
     value: string
     required: boolean
-    userAnswer: string
+    deleteQuestion: (id: string) => any
 }
 
-function ShortAnswer({ index, value, required, userAnswer }: ShortAnswerProps) {
+function ShortAnswer({
+    index,
+    value,
+    required,
+    deleteQuestion
+}: ShortAnswerProps) {
     const [isCheck, setCheck] = useState(required)
     const dispatch = useContext(ReducerContext)
-    // const [answer, setAnswer] = useState("")
     const currentTheme = useTheme()
     const [, setThemeTextClass] = useState("text-purple-700")
     const [, setThemeBorderClass] = useState("border-purple-700")
@@ -27,7 +31,7 @@ function ShortAnswer({ index, value, required, userAnswer }: ShortAnswerProps) {
         setCurrentTheme({
             currentTheme,
             setThemeTextClass,
-            setThemeBorderClass,
+            setThemeBorderClass
         })
     }, [currentTheme, setThemeBorderClass, setThemeTextClass])
 
@@ -37,38 +41,10 @@ function ShortAnswer({ index, value, required, userAnswer }: ShortAnswerProps) {
             payload: {
                 index: index,
                 key: "required",
-                value: isCheck,
-            },
+                value: isCheck
+            }
         })
     }, [isCheck, dispatch, index])
-
-    // useEffect(() => {
-    //     dispatch({
-    //         type: "UPDATE_QUESTION",
-    //         payload: {
-    //             index: index,
-    //             key: "answer",
-    //             value: answer,
-    //         },
-    //     })
-    // }, [answer, dispatch, index])
-
-    function handleChange(event: ChangeEvent<HTMLInputElement>) {
-        let answer = event.target.value
-        dispatch({
-            type: "UPDATE_QUESTION",
-            payload: {
-                index: index,
-                key: "answer",
-                value: answer,
-            },
-        })
-        // setAnswer(event.target.value)
-    }
-
-    function deleteItem() {
-        dispatch({ type: "DELETE_QUESTION", payload: { index } })
-    }
 
     return (
         <SideBoxLayout>
@@ -84,15 +60,19 @@ function ShortAnswer({ index, value, required, userAnswer }: ShortAnswerProps) {
                 <Input
                     type="text"
                     placeholder="Yout answer"
-                    value={userAnswer}
                     size={"text-base"}
-                    onChange={handleChange}
+                    value={""}
+                    handleChange={function (
+                        e: ChangeEvent<HTMLInputElement>
+                    ): void {
+                        throw new Error("Function not implemented.")
+                    }}
                 />
             </div>
             <div className="text-right">
                 <span
                     className="cursor-pointer border-r-4 px-2"
-                    onClick={deleteItem}
+                    onClick={() => deleteQuestion(index)}
                 >
                     <DeleteOutlinedIcon className="text-gray-500 text-3xl" />
                 </span>
@@ -100,6 +80,7 @@ function ShortAnswer({ index, value, required, userAnswer }: ShortAnswerProps) {
                 <span className="mx-2 px-2">
                     Required
                     <RenderSwitch
+                        index={index}
                         isCheck={isCheck}
                         setCheck={setCheck}
                         currentTheme={currentTheme}

@@ -28,8 +28,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 console.error(error);
                 res.status(500).send({error: 'Internal server error'});
             }
+        } finally {
+            await prisma.$disconnect()
         }
-    } else {
-        res.status(405).send({error: 'Method not allowed'});
-    }
+    } 
 }

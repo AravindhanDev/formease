@@ -6,12 +6,11 @@ import { useTheme } from "../ThemeProvider"
 import { ReducerContext } from "../FormStateProvider"
 
 interface RadioButtonProps {
+    index: string
     item: string
     handleChange: (event: ChangeEvent<HTMLInputElement>, index: number) => void
-    index: number
     id: number
     deleteItem: (id: number) => void
-    userAnswer: string
 }
 
 function RadioButton({
@@ -19,8 +18,7 @@ function RadioButton({
     handleChange,
     index,
     id,
-    deleteItem,
-    userAnswer,
+    deleteItem
 }: RadioButtonProps) {
     const currentTheme = useTheme()
     const [themeAccentClass, setThemeAccentClass] =
@@ -30,7 +28,7 @@ function RadioButton({
     useEffect(() => {
         setCurrentTheme({
             currentTheme,
-            setThemeAccentClass,
+            setThemeAccentClass
         })
     }, [currentTheme])
 
@@ -40,8 +38,8 @@ function RadioButton({
             payload: {
                 index,
                 key: "answer",
-                value: item,
-            },
+                value: item
+            }
         })
     }
 
@@ -51,7 +49,6 @@ function RadioButton({
                 type="radio"
                 name={item}
                 value={item}
-                checked={userAnswer === item}
                 onClick={() => handleClick(item)}
                 className={`w-5 h-5 ${themeAccentClass} cursor-pointer`}
             />

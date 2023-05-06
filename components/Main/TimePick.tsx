@@ -9,15 +9,14 @@ import { setCurrentTheme } from "../utility/themeValidation"
 import RenderSwitch from "../switches/RenderSwitch"
 
 interface DateProps {
-    index: number
+    index: string
     value: string
     required: boolean
-    userAnswer: string
+    deleteQuestion: (id: string) => void
 }
 
-function TimePick({ index, value, required, userAnswer }: DateProps) {
+function TimePick({ index, value, required, deleteQuestion }: DateProps) {
     const [isCheck, setCheck] = useState(required)
-    // const [answer, setAnswer] = useState("")
     const dispatch = useContext(ReducerContext)
     const currentTheme = useTheme()
     const [, setThemeTextClass] = useState("text-purple-700")
@@ -28,7 +27,7 @@ function TimePick({ index, value, required, userAnswer }: DateProps) {
         setCurrentTheme({
             currentTheme,
             setThemeTextClass,
-            setThemeBorderClass,
+            setThemeBorderClass
         })
     }, [currentTheme])
 
@@ -38,14 +37,10 @@ function TimePick({ index, value, required, userAnswer }: DateProps) {
             payload: {
                 index: index,
                 key: "required",
-                value: isCheck,
-            },
+                value: isCheck
+            }
         })
     }, [isCheck, dispatch, index])
-
-    // useEffect(() => {
-
-    // }, [answer, dispatch, index])
 
     function handleChange(event: ChangeEvent<HTMLInputElement>) {
         const answer = event.target.value
@@ -54,13 +49,9 @@ function TimePick({ index, value, required, userAnswer }: DateProps) {
             payload: {
                 index,
                 key: "answer",
-                value: answer,
-            },
+                value: answer
+            }
         })
-    }
-
-    function deleteItem() {
-        dispatch({ type: "DELETE_QUESTION", payload: { index } })
     }
 
     return (
@@ -76,7 +67,6 @@ function TimePick({ index, value, required, userAnswer }: DateProps) {
             <div>
                 <TimePickInput
                     type="time"
-                    value={userAnswer}
                     size={"text-base"}
                     onChange={handleChange}
                 />
@@ -84,7 +74,7 @@ function TimePick({ index, value, required, userAnswer }: DateProps) {
             <div className="text-right">
                 <span
                     className="cursor-pointer border-r-4 px-2"
-                    onClick={deleteItem}
+                    onClick={() => deleteQuestion(index)}
                 >
                     <DeleteOutlinedIcon className="text-gray-500 text-3xl" />
                 </span>
@@ -92,6 +82,7 @@ function TimePick({ index, value, required, userAnswer }: DateProps) {
                 <span className="mx-2 px-2">
                     Required
                     <RenderSwitch
+                        index={index}
                         currentTheme={currentTheme}
                         isCheck={isCheck}
                         setCheck={setCheck}

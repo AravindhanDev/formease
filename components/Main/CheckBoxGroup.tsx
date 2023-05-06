@@ -3,7 +3,7 @@ import {
     useEffect,
     useContext,
     ChangeEvent,
-    useCallback,
+    useCallback
 } from "react"
 import InputVariant1 from "../InputVariant1"
 import { SideBoxLayout } from "./BoxLayout"
@@ -16,17 +16,17 @@ import { useTheme } from "../ThemeProvider"
 import RenderSwitch from "../switches/RenderSwitch"
 
 interface CheckBoxGroupProps {
-    index: number
+    index: string
     value: string
     required: boolean
-    userAnswer: string
+    deleteQuestion: (id: string) => void
 }
 
 function CheckBoxGroup({
     index,
     value,
     required,
-    userAnswer,
+    deleteQuestion
 }: CheckBoxGroupProps) {
     const dispatch = useContext(ReducerContext)
     const [isCheck, setCheck] = useState(required)
@@ -60,30 +60,15 @@ function CheckBoxGroup({
         setCurrentTheme({
             currentTheme,
             setThemeTextClass,
-            setThemeBorderClass,
+            setThemeBorderClass
         })
     }, [currentTheme])
-
-    useEffect(() => {
-        dispatch({
-            type: "UPDATE_QUESTION",
-            payload: {
-                index,
-                key: "answer",
-                value: answers,
-            },
-        })
-    }, [answers, dispatch, index])
-
-    const deleteQuestion = useCallback(() => {
-        dispatch({ type: "DELETE_QUESTION", payload: { index } })
-    }, [dispatch, index])
 
     const updateCheckBoxState = useCallback(
         (value: string[]) => {
             dispatch({
                 type: "UPDATE_QUESTION",
-                payload: { index, key: "options", value },
+                payload: { index, key: "options", value }
             })
         },
         [dispatch, index]
@@ -92,9 +77,9 @@ function CheckBoxGroup({
     useEffect(() => {
         updateCheckBoxState(checkBoxItems)
         if (checkBoxItems.length === 0) {
-            deleteQuestion()
+            deleteQuestion(index)
         }
-    }, [checkBoxItems, updateCheckBoxState, deleteQuestion])
+    }, [checkBoxItems, updateCheckBoxState, deleteQuestion, index])
 
     function handleChange(event: ChangeEvent<HTMLInputElement>, index: number) {
         setCheckBoxItems((prevItems: string[]) => {
@@ -166,7 +151,7 @@ function CheckBoxGroup({
 
                 <span
                     className="cursor-pointer border-x-4 px-2"
-                    onClick={deleteQuestion}
+                    onClick={() => deleteQuestion(index)}
                 >
                     <DeleteOutlinedIcon className="text-gray-500 sm:text-3xl xs:text-2xl" />
                 </span>
@@ -174,6 +159,7 @@ function CheckBoxGroup({
                 <span className="mx-2 px-2 xs:text-sm">
                     Required
                     <RenderSwitch
+                        index={index}
                         currentTheme={currentTheme}
                         isCheck={isCheck}
                         setCheck={setCheck}

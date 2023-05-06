@@ -28,27 +28,27 @@ function Register() {
         event.preventDefault()
         const responseObj = {
             email: emailRef?.current?.value,
-            password: passwordRef?.current?.value,
+            password: passwordRef?.current?.value
         }
         const options = {
             method: "POST",
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "application/json"
             },
-            body: JSON.stringify(responseObj),
+            body: JSON.stringify(responseObj)
         }
         const response = await fetch("/api/register", options)
         const res = await response.json()
-        const auth = {
-            sessionId: uuid(),
-            userId: res.data.id,
-        }
         if (res.created) {
+            const auth = {
+                sessionId: uuid(),
+                userId: res.data.id
+            }
             Cookie.set("auth", JSON.stringify(auth), {
                 expires: 1 / 24,
                 secure: true,
                 sameSite: "strict",
-                path: "/",
+                path: "/"
             })
             location.href = `/${res.data.id}/surveys`
         } else {

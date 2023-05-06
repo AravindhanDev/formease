@@ -3,19 +3,19 @@ import { ChangeEvent } from "react"
 interface InputProps {
     type: string
     placeholder: string
-    value: string | undefined
-    onChange: (event: ChangeEvent<HTMLInputElement>) => void
     size: string
+    value: string
+    handleChange: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
-function Input(props: InputProps) {
+function Input({ type, value, size, placeholder, handleChange }: InputProps) {
     return (
         <input
-            className={`mb-4 ${props.size} border-b-2 border-grey-200 w-full  text-gray-700 focus:outline-none !important transition-colors duration-500`}
-            type={props.type}
-            placeholder={props.placeholder}
-            value={props.value}
-            onChange={props.onChange}
+            className={`mb-4 ${size} border-b-2 border-grey-200 w-full  text-gray-700 focus:outline-none !important transition-colors duration-500`}
+            type={type}
+            value={value}
+            placeholder={placeholder}
+            onChange={handleChange}
         />
     )
 }

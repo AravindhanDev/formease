@@ -28,31 +28,30 @@ function Login() {
         event.preventDefault()
         const responseObj = {
             email: emailRef?.current?.value,
-            password: passwordRef?.current?.value,
+            password: passwordRef?.current?.value
         }
         const options = {
             method: "POST",
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "application/json"
             },
-            body: JSON.stringify(responseObj),
+            body: JSON.stringify(responseObj)
         }
         const response = await fetch("/api/login", options)
         const res = await response.json()
         const authCookie = {
             sessionId: uuid(),
-            userId: res.data.id,
+            userId: res.data.id
         }
-        if (res.auth) {
-            let auth = JSON.stringify(authCookie)
-            Cookie.set("auth", auth, {
-                expires: 1 / 24,
-                secure: true,
-                sameSite: "strict",
-                path: "/",
-            })
-            location.href = `/${res.data.id}/surveys`
-        }
+        if (res.auth === undefined) return
+        let auth = JSON.stringify(authCookie)
+        Cookie.set("auth", auth, {
+            expires: 1 / 24,
+            secure: true,
+            sameSite: "strict",
+            path: "/"
+        })
+        location.href = `/${res.data.id}/surveys`
     }
 
     return (

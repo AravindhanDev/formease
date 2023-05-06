@@ -29,12 +29,15 @@ model Surveys {
 }
 
 model Questionarries {
-  id             String      @id @unique @db.VarChar(255)
-  question       String      @db.VarChar(255)
-  questionNumber Int
-  surveyId       String?     @db.VarChar(255)
-  Surveys        Surveys?    @relation(fields: [surveyId], references: [id], onDelete: Cascade)
-  responses      Responses[]
+  id        String      @id @unique @db.VarChar(255)
+  question  String      @db.VarChar(255)
+  options   String
+  element   String
+  type      String
+  required  Boolean
+  surveyId  String?     @db.VarChar(255)
+  Surveys   Surveys?    @relation(fields: [surveyId], references: [id], onDelete: Cascade)
+  responses Responses[]
 }
 
 model Responses {

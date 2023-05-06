@@ -4,21 +4,20 @@ import { SideBoxLayout } from "./BoxLayout"
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined"
 import TextArea from "../TextArea"
 import { ReducerContext } from "../FormStateProvider"
-import { useTheme, useThemeUpdate } from "../ThemeProvider"
+import { useTheme } from "../ThemeProvider"
 import { setCurrentTheme } from "../utility/themeValidation"
 import RenderSwitch from "../switches/RenderSwitch"
 
 interface ParagraphProps {
-    index: number
+    index: string
     value: string
     required: boolean
-    userAnswer: string
+    deleteQuestion: (id: string) => void
 }
 
-function Paragraph({ index, value, required, userAnswer }: ParagraphProps) {
+function Paragraph({ index, value, required, deleteQuestion }: ParagraphProps) {
     const [isCheck, setCheck] = useState(required)
     const dispatch = useContext(ReducerContext)
-    const [answer, setAnswer] = useState("")
     const currentTheme = useTheme()
     const [, setThemeTextClass] = useState("text-purple-700")
     const [, setThemeBorderClass] = useState("border-purple-700")
@@ -27,7 +26,7 @@ function Paragraph({ index, value, required, userAnswer }: ParagraphProps) {
         setCurrentTheme({
             currentTheme,
             setThemeTextClass,
-            setThemeBorderClass,
+            setThemeBorderClass
         })
     }, [currentTheme])
 
@@ -37,21 +36,10 @@ function Paragraph({ index, value, required, userAnswer }: ParagraphProps) {
             payload: {
                 index: index,
                 key: "required",
-                value: isCheck,
-            },
+                value: isCheck
+            }
         })
     }, [isCheck, dispatch, index])
-
-    // useEffect(() => {
-    //     dispatch({
-    //         type: "UPDATE_QUESTION",
-    //         payload: {
-    //             index,
-    //             key: "answer",
-    //             value: answer,
-    //         },
-    //     })
-    // }, [answer, dispatch, index])
 
     function handleChange(event: ChangeEvent<HTMLTextAreaElement>) {
         let answer = event.target.value
@@ -60,13 +48,9 @@ function Paragraph({ index, value, required, userAnswer }: ParagraphProps) {
             payload: {
                 index,
                 key: "answer",
-                value: answer,
-            },
+                value: answer
+            }
         })
-    }
-
-    function deleteQuestion() {
-        dispatch({ type: "DELETE_QUESTION", payload: { index } })
     }
 
     return (
@@ -74,8 +58,8 @@ function Paragraph({ index, value, required, userAnswer }: ParagraphProps) {
             <div>
                 <InputVariant1
                     index={index}
-                    type="text"
                     value={value}
+                    type="text"
                     placeholder={isCheck ? "Question *" : "Question"}
                 />
             </div>
@@ -83,15 +67,19 @@ function Paragraph({ index, value, required, userAnswer }: ParagraphProps) {
             <div>
                 <TextArea
                     placeholder="Your answer"
-                    value={userAnswer}
-                    onChange={handleChange}
+                    value={""}
+                    handleChange={function (
+                        e: ChangeEvent<HTMLTextAreaElement>
+                    ): void {
+                        throw new Error("Function not implemented.")
+                    }}
                 ></TextArea>
             </div>
 
             <div className="text-right">
                 <span
                     className="cursor-pointer border-r-4 px-2"
-                    onClick={deleteQuestion}
+                    onClick={() => deleteQuestion(index)}
                 >
                     <DeleteOutlinedIcon className="text-gray-500 text-3xl" />
                 </span>
@@ -99,6 +87,7 @@ function Paragraph({ index, value, required, userAnswer }: ParagraphProps) {
                 <span className="mx-2 px-2">
                     Required
                     <RenderSwitch
+                        index={index}
                         currentTheme={currentTheme}
                         isCheck={isCheck}
                         setCheck={setCheck}

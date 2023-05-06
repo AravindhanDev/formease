@@ -1,122 +1,41 @@
-export function updateSpecificQuestion(
-    dispatch: any,
-    index: number,
-    key: string,
-    value: string
+import { v4 as uuid } from "uuid"
+
+interface Question {
+    id: string
+    question: string
+    element: string
+    type: string
+    required: boolean
+    options?: string
+    surveyId: string
+}
+
+export default async function createQuestion(
+    questionType: string,
+    surveyId: string,
+    setQuestions: any
 ) {
-    dispatch({
-        type: "UPDATE_QUESTION",
-        payload: {
-            index,
-            key,
-            value,
+    let question: Question = {
+        id: uuid(),
+        question: "",
+        options: "",
+        element: "input",
+        type: "text",
+        required: false,
+        surveyId: surveyId
+    }
+    question.type = questionType
+    if (question.type === "paragraph") {
+        question.element = "textarea"
+    }
+    const options = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
         },
-    })
-}
-
-function addShortAnswer(dispatch: any) {
-    dispatch({
-        type: "ADD_QUESTION",
-        payload: {
-            question: {
-                index: 0,
-                element: "input",
-                type: "text",
-                question: "",
-                required: false,
-                answer: "",
-            },
-        },
-    })
-}
-
-function addDatePicker(dispatch: any) {
-    dispatch({
-        type: "ADD_QUESTION",
-        payload: {
-            question: {
-                index: 0,
-                element: "input",
-                type: "date",
-                question: "",
-                required: false,
-                answer: "",
-            },
-        },
-    })
-}
-
-function addTimePicker(dispatch: any) {
-    dispatch({
-        type: "ADD_QUESTION",
-        payload: {
-            question: {
-                index: 0,
-                element: "input",
-                type: "time",
-                question: "",
-                required: false,
-                answer: "",
-            },
-        },
-    })
-}
-
-function addParagraph(dispatch: any) {
-    dispatch({
-        type: "ADD_QUESTION",
-        payload: {
-            question: {
-                index: 0,
-                element: "textarea",
-                type: "textarea",
-                question: "",
-                required: false,
-                answer: "",
-            },
-        },
-    })
-}
-
-function addCheckBox(dispatch: any) {
-    dispatch({
-        type: "ADD_QUESTION",
-        payload: {
-            question: {
-                index: 0,
-                element: "input",
-                type: "checkbox",
-                question: "",
-                options: [],
-                required: false,
-                answer: "",
-            },
-        },
-    })
-}
-
-function addRadioButton(dispatch: any) {
-    dispatch({
-        type: "ADD_QUESTION",
-        payload: {
-            question: {
-                index: 0,
-                element: "input",
-                type: "radio",
-                question: "",
-                options: [],
-                required: false,
-                answer: "",
-            },
-        },
-    })
-}
-
-export {
-    addShortAnswer,
-    addParagraph,
-    addCheckBox,
-    addRadioButton,
-    addDatePicker,
-    addTimePicker,
+        body: JSON.stringify(question)
+    }
+    const response = await fetch("/api/createQuestion", options)
+    const res = await response.json()
+    setQuestions((prevQuestions: any) => [...prevQuestions, res.data])
 }

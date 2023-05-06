@@ -9,12 +9,12 @@ const IndigoSwitch = styled(Switch)(({ theme }) => ({
             backgroundColor: alpha(
                 indigo[600],
                 theme.palette.action.hoverOpacity
-            ),
-        },
+            )
+        }
     },
     "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
-        backgroundColor: indigo[600],
-    },
+        backgroundColor: indigo[600]
+    }
 }))
 
 export default IndigoSwitch
