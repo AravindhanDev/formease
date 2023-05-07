@@ -9,7 +9,7 @@ interface CheckBoxProps {
     index: number
     deleteItem: (id: number) => void
     checkBoxItems: string[]
-    isResearcher: () => boolean
+    isResearcher: boolean
 }
 
 function CheckBox({
@@ -41,13 +41,13 @@ function CheckBox({
             <input
                 type="text"
                 value={item}
-                disabled={isResearcher() === false}
+                disabled={isResearcher === false}
                 onChange={(event) => handleChange(event, index)}
                 className={`mx-5 ${
-                    isResearcher() && "hover:border-gray-200"
+                    isResearcher && "hover:border-gray-200"
                 }  border-transparent w-5/6 border-b-2 disabled:bg-white focus:border-b-2 transition-colors duration-300 focus:outline-none !important`}
             />
-            <div className="cursor-pointer" hidden={isResearcher() === false}>
+            <div className="cursor-pointer" hidden={isResearcher === false}>
                 <CloseIcon
                     className="text-gray-500"
                     onClick={() => deleteItem(index)}

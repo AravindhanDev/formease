@@ -10,11 +10,11 @@ import ColorBox from "../ColorBox"
 
 type NavbarProps = {
     title: string
-    questions: any
     setQuestions: any
+    isResearcher: boolean
 }
 
-function Navbar({ title, questions, setQuestions }: NavbarProps) {
+function Navbar({ title, setQuestions, isResearcher }: NavbarProps) {
     const [current, setCurrent] = useState<number>(1)
     const [inputOption, setInputOption] = useState<boolean>(false)
     const [colorBox, setColorBox] = useState<boolean>(false)
@@ -22,6 +22,11 @@ function Navbar({ title, questions, setQuestions }: NavbarProps) {
     const [themeTextClass, setThemeTextClass] = useState("text-purple-700")
     const [themeBorderClass, setThemeBorderClass] =
         useState("border-purple-700")
+    const [researcher, setResearcher] = useState(false)
+
+    useEffect(() => {
+        setResearcher(isResearcher)
+    }, [isResearcher])
 
     useEffect(() => {
         setCurrentTheme({
@@ -42,13 +47,8 @@ function Navbar({ title, questions, setQuestions }: NavbarProps) {
                         {title === "" ? "Untitled Form" : title}
                     </span>
                 </div>
-                <div className="">
-                    {inputOption && (
-                        <InputOption
-                            questions={questions}
-                            setQuestions={setQuestions}
-                        />
-                    )}
+                <div hidden={researcher === false}>
+                    {inputOption && <InputOption setQuestions={setQuestions} />}
                     {colorBox && <ColorBox />}
                     <span
                         className="mr-4 cursor-pointer"

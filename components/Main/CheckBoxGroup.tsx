@@ -21,6 +21,7 @@ interface CheckBoxGroupProps {
     required: boolean
     options: string
     deleteQuestion: (id: string) => void
+    isResearcher: boolean
 }
 
 function CheckBoxGroup({
@@ -28,7 +29,8 @@ function CheckBoxGroup({
     value,
     required,
     options,
-    deleteQuestion
+    deleteQuestion,
+    isResearcher
 }: CheckBoxGroupProps) {
     const [isCheck, setCheck] = useState(required)
     const currentTheme = useTheme()
@@ -37,14 +39,6 @@ function CheckBoxGroup({
     const [checkBoxItems, setCheckBoxItems] = useState<string[]>(() =>
         options.split(", ")
     )
-    function isResearcher() {
-        let auth = Cookie.get("auth")
-        if (auth !== undefined) {
-            return true
-        } else {
-            return false
-        }
-    }
 
     const updateOptions = useCallback(async () => {
         const options = {
@@ -105,13 +99,20 @@ function CheckBoxGroup({
 
     return (
         <SideBoxLayout>
+            <span
+                className="absolute top-2 sm:top-4 left-4 font-medium text-red-400"
+                hidden={isCheck === false}
+            >
+                *
+            </span>
             <div>
                 <InputVariant1
-                    disabled={isResearcher() === false}
+                    isCheck={isCheck}
+                    disabled={isResearcher === false}
                     type="text"
                     value={value}
-                    placeholder={isCheck ? "Question *" : "Question"}
                     index={index}
+                    placeholder={isCheck ? "Question" : "Question (Optional)"}
                 />
             </div>
 
@@ -132,18 +133,18 @@ function CheckBoxGroup({
                 <a
                     onClick={addOption}
                     className={`sm:hidden ${
-                        isResearcher() === true ? "inline" : "hidden"
+                        isResearcher === true ? "inline" : "hidden"
                     } bg-gray-100 p-2 xs:text-sm rounded-md ${themeTextClass} cursor-pointer font-normal`}
                 >
                     <AddIcon /> <span>option</span>
                 </a>
             </div>
 
-            <hr hidden={isResearcher() === false} />
+            <hr hidden={isResearcher === false} />
 
             <div
                 className="mt-5 sm:mt-3 text-right"
-                hidden={isResearcher() === false}
+                hidden={isResearcher === false}
             >
                 <a
                     onClick={addOption}

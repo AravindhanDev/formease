@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState, useCallback } from "react"
+import { ChangeEvent, useEffect, useState, useCallback, useRef } from "react"
 
 interface InputProps {
     index: string
@@ -6,6 +6,7 @@ interface InputProps {
     type: string
     placeholder: string
     disabled: boolean
+    isCheck: boolean
 }
 
 function useDebounce(value: string, delay: number) {
@@ -29,7 +30,8 @@ function InputVariant1({
     index,
     type,
     placeholder,
-    disabled
+    disabled,
+    isCheck
 }: InputProps) {
     const [question, setQuestion] = useState(value)
     const debouncedQuestion = useDebounce(question, 500)

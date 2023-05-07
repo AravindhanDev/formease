@@ -7,7 +7,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (req.method === "PATCH") {
         try {
             const {question, id} = req.body
-            console.log(question, id)
             const response = await prisma.questionarries.update({
                 where: { id },
                 data: { question }

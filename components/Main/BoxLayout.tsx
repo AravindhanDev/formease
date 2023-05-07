@@ -19,13 +19,13 @@ function SideBoxLayout({ children }: SideBoxLayoutProps) {
     useEffect(() => {
         setCurrentTheme({
             currentTheme,
-            setThemeBorderClass,
+            setThemeBorderClass
         })
     }, [currentTheme])
 
     return (
         <div
-            className={`mb-5 border-l-8 shadow-lg rounded-md ${themeBorderClass} bg-white p-5 sm:p-7`}
+            className={`mb-5 border-l-8 shadow-lg rounded-md ${themeBorderClass} relative bg-white p-5 sm:p-7`}
         >
             {children}
         </div>
@@ -40,7 +40,7 @@ function TopBoxLayout({ children }: BoxLayoutProps) {
     useEffect(() => {
         setCurrentTheme({
             currentTheme,
-            setThemeBorderClass,
+            setThemeBorderClass
         })
     }, [currentTheme])
 

@@ -6,24 +6,25 @@ type ButtonProps = {
     text: string
 }
 
-function Button({ text }: ButtonProps) {
-    const [themeBgClass, setThemeBgClass] = useState<string>("text-purple-700")
+function GhostButton({ text }: ButtonProps) {
+    const [themeTextClass, setThemeTextClass] =
+        useState<string>("text-purple-700")
     const currentTheme = useTheme()
 
     useEffect(() => {
         setCurrentTheme({
             currentTheme,
-            setThemeBgClass
+            setThemeTextClass
         })
     }, [currentTheme])
 
     return (
         <button
-            className={`cursor-pointer px-5 py-1.5 rounded text-white ${themeBgClass} font-medium`}
+            className={`hover:bg-white hover:shadow-md duration-300 cursor-pointer px-4 py-1 rounded ${themeTextClass} font-bold text-sm`}
         >
             {text}
         </button>
     )
 }
 
-export default Button
+export default GhostButton

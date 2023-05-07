@@ -15,6 +15,7 @@ interface RadioButtonGroupProps {
     required: boolean
     options: string
     deleteQuestion: (id: string) => void
+    isResearcher: boolean
 }
 
 function RadioButtonGroup({
@@ -22,7 +23,8 @@ function RadioButtonGroup({
     value,
     required,
     options,
-    deleteQuestion
+    deleteQuestion,
+    isResearcher
 }: RadioButtonGroupProps) {
     const [isCheck, setCheck] = useState(required)
     const currentTheme = useTheme()
@@ -30,14 +32,6 @@ function RadioButtonGroup({
     const [radioButtonItems, setRadioButtonItems] = useState<string[]>(() =>
         options.split(", ")
     )
-    function isResearcher() {
-        let auth = Cookie.get("auth")
-        if (auth !== undefined) {
-            return true
-        } else {
-            return false
-        }
-    }
 
     const updateOptions = useCallback(async () => {
         const options = {
@@ -97,13 +91,20 @@ function RadioButtonGroup({
 
     return (
         <SideBoxLayout>
+            <span
+                className="absolute top-2 sm:top-4 left-4 font-medium text-red-400"
+                hidden={isCheck === false}
+            >
+                *
+            </span>
             <div>
                 <InputVariant1
-                    disabled={isResearcher() === false}
+                    isCheck={isCheck}
+                    disabled={isResearcher === false}
                     type="text"
                     value={value}
                     index={index}
-                    placeholder={isCheck ? "Question *" : "Question"}
+                    placeholder={isCheck ? "Question" : "Question (Optional)"}
                 />
             </div>
 
@@ -125,18 +126,18 @@ function RadioButtonGroup({
                 <a
                     onClick={addOption}
                     className={`${
-                        isResearcher() === true ? "inline" : "hidden"
+                        isResearcher === true ? "inline" : "hidden"
                     } sm:hidden bg-gray-100 p-2 xs:text-sm rounded-md ${themeTextClass} cursor-pointer font-normal`}
                 >
                     <AddIcon /> <span>option</span>
                 </a>
             </div>
 
-            <hr hidden={isResearcher() === false} />
+            <hr hidden={isResearcher === false} />
 
             <div
                 className="mt-5 sm:mt-3 text-right"
-                hidden={isResearcher() === false}
+                hidden={isResearcher === false}
             >
                 <a
                     onClick={addOption}

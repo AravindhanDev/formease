@@ -6,7 +6,6 @@ const prisma = new PrismaClient()
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === "POST") {
         try {
-            console.log(req.body)
             const response = await prisma.questionarries.create({
                 data: req.body
             })

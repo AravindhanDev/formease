@@ -4,6 +4,7 @@ import Navbar from "@/components/Main/Navbar"
 import { checkState } from "@/components/utility/changeBg"
 import { useTheme } from "@/components/ThemeProvider"
 import MainForm from "@/components/Main/MainForm"
+import Cookie from "js-cookie"
 
 export type HeaderDetails = {
     title: string
@@ -17,6 +18,14 @@ function Home() {
         description: ""
     })
     const [questions, setQuestions] = useState([])
+    const [isResearcher, setResearcher] = useState(() => {
+        let auth = Cookie.get("auth")
+        if (auth) {
+            return true
+        } else {
+            return false
+        }
+    })
 
     const getSurveyDetails = useCallback(async () => {
         const response = await fetch(
@@ -96,17 +105,19 @@ function Home() {
     return (
         <>
             <Navbar
+                isResearcher={isResearcher}
                 title={headerDetails.title}
-                questions={questions}
                 setQuestions={setQuestions}
             />
             <main className="flex justify-center mt-5 xs:p-2">
                 <div className="lg:w-3/5 md:w-4/5 sm:w-full xs:w-full">
                     <Header
+                        isResearcher={isResearcher}
                         headerDetails={headerDetails}
                         setHeaderDetails={setHeaderDetails}
                     />
                     <MainForm
+                        isResearcher={isResearcher}
                         questions={questions}
                         deleteQuestion={deleteQuestion}
                     />
@@ -117,76 +128,3 @@ function Home() {
 }
 
 export default Home
-
-// {
-//     <div>
-//     {questions.map((question: any, index: number) => {
-//         if (question.element === "input") {
-//             if (question.type === "text") {
-//                 return (
-//                     <ShortAnswer
-//                         deleteQuestion={deleteQuestion}
-//                         key={question.id}
-//                         index={question.id}
-//                         value={question.question}
-//                         required={question.required}
-//                     />
-//                 )
-//             }
-//             if (question.type === "date") {
-//                 return (
-//                     <DatePick
-//                         deleteQuestion={deleteQuestion}
-//                         key={question.id}
-//                         index={question.id}
-//                         value={question.question}
-//                         required={question.required}
-//                     />
-//                 )
-//             }
-//             if (question.type === "time") {
-//                 return (
-//                     <TimePick
-//                         deleteQuestion={deleteQuestion}
-//                         key={question.id}
-//                         index={question.id}
-//                         value={question.question}
-//                         required={question.required}
-//                     />
-//                 )
-//             }
-//             if (question.type === "radio") {
-//                 return (
-//                     <RadioButtonGroup
-//                         deleteQuestion={deleteQuestion}
-//                         key={question.id}
-//                         index={question.id}
-//                         value={question.question}
-//                         required={question.required}
-//                     />
-//                 )
-//             }
-//             if (question.type === "checkbox") {
-//                 return (
-//                     <CheckBoxGroup
-//                         deleteQuestion={deleteQuestion}
-//                         key={question.id}
-//                         index={question.id}
-//                         value={question.question}
-//                         required={question.required}
-//                     />
-//                 )
-//             }
-//         } else {
-//             return (
-//                 <Paragraph
-//                     deleteQuestion={deleteQuestion}
-//                     key={question.id}
-//                     index={question.id}
-//                     value={question.question}
-//                     required={question.required}
-//                 />
-//             )
-//         }
-//     })}
-// </div>

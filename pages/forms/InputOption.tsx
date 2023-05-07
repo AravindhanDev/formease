@@ -23,7 +23,10 @@ function InputOption({ setQuestions }: InputOptionProps) {
     }
 
     return (
-        <div className="absolute sm:right-40 w-52 top-12 bg-white p-4 xs:p-2 rounded shadow-lg">
+        <div
+            style={{ zIndex: 999 }}
+            className="absolute sm:right-40 w-52 top-12 bg-white p-4 xs:p-2 rounded shadow-lg"
+        >
             <ul className="text-gray-600">
                 <li
                     onMouseDown={(event) => {

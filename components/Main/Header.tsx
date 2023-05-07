@@ -6,9 +6,14 @@ import { ChangeEvent } from "react"
 type HeaderProps = {
     headerDetails: any
     setHeaderDetails: any
+    isResearcher: boolean
 }
 
-function Header({ headerDetails, setHeaderDetails }: HeaderProps) {
+function Header({
+    headerDetails,
+    setHeaderDetails,
+    isResearcher
+}: HeaderProps) {
     function setTitle(event: ChangeEvent<HTMLInputElement>) {
         setHeaderDetails((prevDetails: any) => {
             return {
@@ -30,6 +35,7 @@ function Header({ headerDetails, setHeaderDetails }: HeaderProps) {
     return (
         <TopBoxLayout>
             <Input
+                disabled={isResearcher === false}
                 type="text"
                 value={headerDetails.title}
                 placeholder="Form title"
@@ -37,6 +43,7 @@ function Header({ headerDetails, setHeaderDetails }: HeaderProps) {
                 handleChange={setTitle}
             />
             <TextArea
+                disabled={isResearcher === false}
                 handleChange={setDescription}
                 value={headerDetails.description}
                 placeholder="Form Description"

@@ -14,22 +14,21 @@ interface ParagraphProps {
     value: string
     required: boolean
     deleteQuestion: (id: string) => void
+    isResearcher: boolean
 }
 
-function Paragraph({ index, value, required, deleteQuestion }: ParagraphProps) {
+function Paragraph({
+    index,
+    value,
+    required,
+    deleteQuestion,
+    isResearcher
+}: ParagraphProps) {
     const [isCheck, setCheck] = useState(required)
     const dispatch = useContext(ReducerContext)
     const currentTheme = useTheme()
     const [, setThemeTextClass] = useState("text-purple-700")
     const [, setThemeBorderClass] = useState("border-purple-700")
-    function isResearcher() {
-        let auth = Cookie.get("auth")
-        if (auth !== undefined) {
-            return true
-        } else {
-            return false
-        }
-    }
 
     useEffect(() => {
         setCurrentTheme({
@@ -64,18 +63,26 @@ function Paragraph({ index, value, required, deleteQuestion }: ParagraphProps) {
 
     return (
         <SideBoxLayout>
+            <span
+                className="absolute top-2 sm:top-4 left-4 font-medium text-red-400"
+                hidden={isCheck === false}
+            >
+                *
+            </span>
             <div>
                 <InputVariant1
-                    disabled={isResearcher() === false}
+                    isCheck={isCheck}
+                    disabled={isResearcher === false}
                     index={index}
                     value={value}
                     type="text"
-                    placeholder={isCheck ? "Question *" : "Question"}
+                    placeholder={isCheck ? "Question" : "Question (Optional)"}
                 />
             </div>
 
             <div>
                 <TextArea
+                    disabled={false}
                     placeholder="Your answer"
                     value={""}
                     handleChange={function (
@@ -86,7 +93,7 @@ function Paragraph({ index, value, required, deleteQuestion }: ParagraphProps) {
                 ></TextArea>
             </div>
 
-            <div className="text-right" hidden={isResearcher() === false}>
+            <div className="text-right" hidden={isResearcher === false}>
                 <span
                     className="cursor-pointer border-r-4 px-2"
                     onClick={() => deleteQuestion(index)}
