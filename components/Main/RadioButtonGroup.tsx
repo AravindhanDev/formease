@@ -2,15 +2,8 @@ import InputVariant1 from "../InputVariant1"
 import { SideBoxLayout } from "./BoxLayout"
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined"
 import RadioButton from "./RadioButton"
-import { ReducerContext } from "../FormStateProvider"
 import AddIcon from "@mui/icons-material/Add"
-import React, {
-    useState,
-    useContext,
-    useEffect,
-    useCallback,
-    ChangeEvent
-} from "react"
+import React, { useState, useEffect, useCallback, ChangeEvent } from "react"
 import { useTheme } from "../ThemeProvider"
 import { setCurrentTheme } from "../utility/themeValidation"
 import RenderSwitch from "../switches/RenderSwitch"
@@ -19,6 +12,7 @@ interface RadioButtonGroupProps {
     index: string
     value: string
     required: boolean
+    options: string
     deleteQuestion: (id: string) => void
 }
 
@@ -26,28 +20,34 @@ function RadioButtonGroup({
     index,
     value,
     required,
+    options,
     deleteQuestion
 }: RadioButtonGroupProps) {
     const [isCheck, setCheck] = useState(required)
-    const dispatch = useContext(ReducerContext)
-    const [radioButtonItems, setRadioButtonItems] = useState<string[]>([
-        "New Option"
-    ])
     const currentTheme = useTheme()
     const [themeTextClass, setThemeTextClass] = useState("text-purple-700")
+    const [radioButtonItems, setRadioButtonItems] = useState<string[]>(() =>
+        options.split(", ")
+    )
+
+    const updateOptions = useCallback(async () => {
+        const options = {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                id: index,
+                options: radioButtonItems.join(", ")
+            })
+        }
+        const response = await fetch("/api/updateOptions", options)
+        const res = await response.json()
+    }, [index, radioButtonItems])
 
     useEffect(() => {
-        let formState: any = localStorage.getItem("formState")
-        if (formState) {
-            formState = JSON.parse(formState)
-            if (
-                formState?.questions?.length &&
-                formState.questions[index]?.options
-            ) {
-                setRadioButtonItems(formState?.questions[index].options)
-            }
-        }
-    }, [index])
+        updateOptions()
+    }, [radioButtonItems, updateOptions])
 
     useEffect(() => {
         setCurrentTheme({
@@ -56,22 +56,11 @@ function RadioButtonGroup({
         })
     }, [currentTheme])
 
-    const updateRadioButtonState = useCallback(
-        (value: string[]) => {
-            dispatch({
-                type: "UPDATE_QUESTION",
-                payload: { index, key: "options", value }
-            })
-        },
-        [dispatch, index]
-    )
-
     useEffect(() => {
-        updateRadioButtonState(radioButtonItems)
         if (radioButtonItems.length === 0) {
             deleteQuestion(index)
         }
-    }, [deleteQuestion, index, radioButtonItems, updateRadioButtonState])
+    }, [deleteQuestion, index, radioButtonItems])
 
     function handleChange(event: ChangeEvent<HTMLInputElement>, index: number) {
         setRadioButtonItems((prevItems: string[]) => {

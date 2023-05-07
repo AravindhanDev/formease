@@ -19,6 +19,7 @@ interface CheckBoxGroupProps {
     index: string
     value: string
     required: boolean
+    options: string
     deleteQuestion: (id: string) => void
 }
 
@@ -26,35 +27,35 @@ function CheckBoxGroup({
     index,
     value,
     required,
+    options,
     deleteQuestion
 }: CheckBoxGroupProps) {
-    const dispatch = useContext(ReducerContext)
     const [isCheck, setCheck] = useState(required)
-    const [answers, setAnswers] = useState<string[]>([])
-    const [checkBoxItems, setCheckBoxItems] = useState<string[]>(["New Option"])
     const currentTheme = useTheme()
     const [themeTextClass, setThemeTextClass] = useState("text-purple-700")
     const [, setThemeBorderClass] = useState("border-purple-700")
+    const [checkBoxItems, setCheckBoxItems] = useState<string[]>(() =>
+        options.split(", ")
+    )
+
+    const updateOptions = useCallback(async () => {
+        const options = {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                id: index,
+                options: checkBoxItems.join(", ")
+            })
+        }
+        const response = await fetch("/api/updateOptions", options)
+        const res = await response.json()
+    }, [index, checkBoxItems])
 
     useEffect(() => {
-        let formState: any = localStorage.getItem("formState")
-        if (formState) {
-            formState = JSON.parse(formState)
-            if (
-                formState?.questions?.length &&
-                formState.questions[index]?.options
-            ) {
-                setCheckBoxItems(formState?.questions[index].options)
-            }
-            if (
-                formState?.questions?.length &&
-                formState.questions[index]?.answer
-            ) {
-                let answers = formState?.questions[index].answer
-                setAnswers([...answers])
-            }
-        }
-    }, [index])
+        updateOptions()
+    }, [checkBoxItems, updateOptions])
 
     useEffect(() => {
         setCurrentTheme({
@@ -64,22 +65,11 @@ function CheckBoxGroup({
         })
     }, [currentTheme])
 
-    const updateCheckBoxState = useCallback(
-        (value: string[]) => {
-            dispatch({
-                type: "UPDATE_QUESTION",
-                payload: { index, key: "options", value }
-            })
-        },
-        [dispatch, index]
-    )
-
     useEffect(() => {
-        updateCheckBoxState(checkBoxItems)
         if (checkBoxItems.length === 0) {
             deleteQuestion(index)
         }
-    }, [checkBoxItems, updateCheckBoxState, deleteQuestion, index])
+    }, [checkBoxItems, deleteQuestion, index])
 
     function handleChange(event: ChangeEvent<HTMLInputElement>, index: number) {
         setCheckBoxItems((prevItems: string[]) => {
@@ -120,13 +110,11 @@ function CheckBoxGroup({
                 {checkBoxItems.map((item, index) => {
                     return (
                         <CheckBox
+                            key={index}
                             item={item}
+                            index={index}
                             handleChange={handleChange}
                             deleteItem={deleteItem}
-                            key={index}
-                            index={index}
-                            answers={answers}
-                            setAnswers={setAnswers}
                             checkBoxItems={checkBoxItems}
                         />
                     )

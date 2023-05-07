@@ -1,14 +1,9 @@
 import { useCallback, useEffect, useState } from "react"
 import Header from "@/components/Main/Header"
 import Navbar from "@/components/Main/Navbar"
-import CheckBoxGroup from "@/components/Main/CheckBoxGroup"
-import Paragraph from "@/components/Main/Paragraph"
-import RadioButtonGroup from "@/components/Main/RadioButtonGroup"
-import ShortAnswer from "@/components/Main/ShortAnswer"
-import DatePick from "@/components/Main/DatePick"
-import TimePick from "@/components/Main/TimePick"
 import { checkState } from "@/components/utility/changeBg"
 import { useTheme } from "@/components/ThemeProvider"
+import MainForm from "@/components/Main/MainForm"
 
 export type HeaderDetails = {
     title: string
@@ -65,10 +60,6 @@ function Home() {
     }, [])
 
     useEffect(() => {
-        console.log(questions)
-    }, [questions])
-
-    useEffect(() => {
         saveSurveyHeaderDetails()
     }, [headerDetails, saveSurveyHeaderDetails])
 
@@ -115,77 +106,10 @@ function Home() {
                         headerDetails={headerDetails}
                         setHeaderDetails={setHeaderDetails}
                     />
-                    <div>
-                        {questions.map((question: any, index: number) => {
-                            if (question.element === "input") {
-                                if (question.type === "text") {
-                                    return (
-                                        <ShortAnswer
-                                            deleteQuestion={deleteQuestion}
-                                            key={question.id}
-                                            index={question.id}
-                                            value={question.question}
-                                            required={question.required}
-                                        />
-                                    )
-                                }
-                                if (question.type === "date") {
-                                    return (
-                                        <DatePick
-                                            deleteQuestion={deleteQuestion}
-                                            key={question.id}
-                                            index={question.id}
-                                            value={question.question}
-                                            required={question.required}
-                                        />
-                                    )
-                                }
-                                if (question.type === "time") {
-                                    return (
-                                        <TimePick
-                                            deleteQuestion={deleteQuestion}
-                                            key={question.id}
-                                            index={question.id}
-                                            value={question.question}
-                                            required={question.required}
-                                        />
-                                    )
-                                }
-                                if (question.type === "radio") {
-                                    return (
-                                        <RadioButtonGroup
-                                            deleteQuestion={deleteQuestion}
-                                            key={question.id}
-                                            index={question.id}
-                                            value={question.question}
-                                            required={question.required}
-                                        />
-                                    )
-                                }
-                                if (question.type === "checkbox") {
-                                    return (
-                                        <CheckBoxGroup
-                                            deleteQuestion={deleteQuestion}
-                                            key={question.id}
-                                            index={question.id}
-                                            value={question.question}
-                                            required={question.required}
-                                        />
-                                    )
-                                }
-                            } else {
-                                return (
-                                    <Paragraph
-                                        deleteQuestion={deleteQuestion}
-                                        key={question.id}
-                                        index={question.id}
-                                        value={question.question}
-                                        required={question.required}
-                                    />
-                                )
-                            }
-                        })}
-                    </div>
+                    <MainForm
+                        questions={questions}
+                        deleteQuestion={deleteQuestion}
+                    />
                 </div>
             </main>
         </>
@@ -194,80 +118,75 @@ function Home() {
 
 export default Home
 
-{
-    /* {state?.questions?.map((question: any, index: number) => {
-                        if (question.element === "input") {
-                            if ((question as TextInput).type === "text") {
-                                const textInput = question as TextInput
-                                return (
-                                    <ShortAnswer
-                                        key={index}
-                                        index={index}
-                                        value={textInput.question}
-                                        required={textInput.required}
-                                    />
-                                )
-                            } else if (
-                                (question as RadioInput).type === "radio"
-                            ) {
-                                const radioInput = question as RadioInput
-                                return (
-                                    <RadioButtonGroup
-                                        key={index}
-                                        index={index}
-                                        value={radioInput.question}
-                                        required={radioInput.required}
-                                    />
-                                )
-                            } else if (
-                                (question as CheckBoxInput).type === "checkbox"
-                            ) {
-                                const checkBoxInput = question as CheckBoxInput
-                                return (
-                                    <CheckBoxGroup
-                                        key={index}
-                                        index={index}
-                                        value={checkBoxInput.question}
-                                        required={checkBoxInput.required}
-                                    />
-                                )
-                            } else if (
-                                (question as DateInput).type === "date"
-                            ) {
-                                const dateInput = question as DateInput
-                                return (
-                                    <DatePick
-                                        key={index}
-                                        index={index}
-                                        value={dateInput.question}
-                                        required={dateInput.required}
-                                    />
-                                )
-                            } else if (
-                                (question as TimeInput).type === "time"
-                            ) {
-                                const timeInput = question as TimeInput
-
-                                return (
-                                    <TimePick
-                                        key={index}
-                                        index={index}
-                                        value={timeInput.question}
-                                        required={timeInput.required}
-                                    />
-                                )
-                            }
-                        } else {
-                            const textArea = question as TextArea
-
-                            return (
-                                <Paragraph
-                                    key={index}
-                                    index={index}
-                                    value={textArea.question}
-                                    required={textArea.required}
-                                />
-                            )
-                        }
-                    })} */
-}
+// {
+//     <div>
+//     {questions.map((question: any, index: number) => {
+//         if (question.element === "input") {
+//             if (question.type === "text") {
+//                 return (
+//                     <ShortAnswer
+//                         deleteQuestion={deleteQuestion}
+//                         key={question.id}
+//                         index={question.id}
+//                         value={question.question}
+//                         required={question.required}
+//                     />
+//                 )
+//             }
+//             if (question.type === "date") {
+//                 return (
+//                     <DatePick
+//                         deleteQuestion={deleteQuestion}
+//                         key={question.id}
+//                         index={question.id}
+//                         value={question.question}
+//                         required={question.required}
+//                     />
+//                 )
+//             }
+//             if (question.type === "time") {
+//                 return (
+//                     <TimePick
+//                         deleteQuestion={deleteQuestion}
+//                         key={question.id}
+//                         index={question.id}
+//                         value={question.question}
+//                         required={question.required}
+//                     />
+//                 )
+//             }
+//             if (question.type === "radio") {
+//                 return (
+//                     <RadioButtonGroup
+//                         deleteQuestion={deleteQuestion}
+//                         key={question.id}
+//                         index={question.id}
+//                         value={question.question}
+//                         required={question.required}
+//                     />
+//                 )
+//             }
+//             if (question.type === "checkbox") {
+//                 return (
+//                     <CheckBoxGroup
+//                         deleteQuestion={deleteQuestion}
+//                         key={question.id}
+//                         index={question.id}
+//                         value={question.question}
+//                         required={question.required}
+//                     />
+//                 )
+//             }
+//         } else {
+//             return (
+//                 <Paragraph
+//                     deleteQuestion={deleteQuestion}
+//                     key={question.id}
+//                     index={question.id}
+//                     value={question.question}
+//                     required={question.required}
+//                 />
+//             )
+//         }
+//     })}
+// </div>

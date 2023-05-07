@@ -3,7 +3,7 @@ import {
     Dispatch,
     SetStateAction,
     useEffect,
-    useState,
+    useState
 } from "react"
 import CloseIcon from "@mui/icons-material/Close"
 import { useTheme } from "../ThemeProvider"
@@ -14,19 +14,10 @@ interface CheckBoxProps {
     handleChange: (event: ChangeEvent<HTMLInputElement>, index: number) => void
     index: number
     deleteItem: (id: number) => void
-    setAnswers: Dispatch<SetStateAction<string[]>>
-    answers: string[]
     checkBoxItems: string[]
 }
 
-function CheckBox({
-    item,
-    handleChange,
-    index,
-    deleteItem,
-    answers,
-    setAnswers,
-}: CheckBoxProps) {
+function CheckBox({ item, handleChange, index, deleteItem }: CheckBoxProps) {
     const currentTheme = useTheme()
     const [themeAccentClass, setThemeAccentClass] =
         useState("accent-purple-700")
@@ -36,30 +27,15 @@ function CheckBox({
         setCurrentTheme({
             currentTheme,
             setThemeAccentClass,
-            setThemeBorderClass,
+            setThemeBorderClass
         })
     }, [currentTheme])
-
-    function handleClick(item: string) {
-        setAnswers((prevAnswers) => {
-            const res: string | undefined = prevAnswers.find(
-                (prevItem) => prevItem === item
-            )
-            if (res !== undefined) {
-                return prevAnswers.filter((prevItem) => prevItem !== item)
-            } else {
-                return [...prevAnswers, item]
-            }
-        })
-    }
 
     return (
         <div className="flex items-center mb-5">
             <input
                 type="checkbox"
-                checked={answers.includes(item)}
                 className={`w-5 h-5 ${themeAccentClass} cursor-pointer`}
-                onClick={() => handleClick(item)}
             />
             <input
                 type="text"

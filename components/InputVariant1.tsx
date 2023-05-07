@@ -40,7 +40,6 @@ function InputVariant1({ value, index, type, placeholder }: InputProps) {
         }
         const response = await fetch("/api/updateQuestion", options)
         const res = await response.json()
-        console.log(res)
     }, [debouncedQuestion, index])
 
     useEffect(() => {

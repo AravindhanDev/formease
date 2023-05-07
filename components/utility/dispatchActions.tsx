@@ -28,6 +28,9 @@ export default async function createQuestion(
     if (question.type === "paragraph") {
         question.element = "textarea"
     }
+    if (question.type === "radio" || question.type === "checkbox") {
+        question.options = "New Option"
+    }
     const options = {
         method: "POST",
         headers: {

@@ -8,11 +8,10 @@ import createQuestion from "@/components/utility/dispatchActions"
 import { useRouter } from "next/router"
 
 type InputOptionProps = {
-    questions: any
     setQuestions: any
 }
 
-function InputOption({ questions, setQuestions }: InputOptionProps) {
+function InputOption({ setQuestions }: InputOptionProps) {
     const router = useRouter()
 
     function sendApiRequest(type: string) {
