@@ -9,11 +9,11 @@ import InputVariant1 from "../InputVariant1"
 import { SideBoxLayout } from "./BoxLayout"
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined"
 import CheckBox from "./CheckBox"
-import { ReducerContext } from "../FormStateProvider"
 import AddIcon from "@mui/icons-material/Add"
 import { setCurrentTheme } from "../utility/themeValidation"
 import { useTheme } from "../ThemeProvider"
 import RenderSwitch from "../switches/RenderSwitch"
+import Cookie from "js-cookie"
 
 interface CheckBoxGroupProps {
     index: string
@@ -37,6 +37,14 @@ function CheckBoxGroup({
     const [checkBoxItems, setCheckBoxItems] = useState<string[]>(() =>
         options.split(", ")
     )
+    function isResearcher() {
+        let auth = Cookie.get("auth")
+        if (auth !== undefined) {
+            return true
+        } else {
+            return false
+        }
+    }
 
     const updateOptions = useCallback(async () => {
         const options = {
@@ -99,6 +107,7 @@ function CheckBoxGroup({
         <SideBoxLayout>
             <div>
                 <InputVariant1
+                    disabled={isResearcher() === false}
                     type="text"
                     value={value}
                     placeholder={isCheck ? "Question *" : "Question"}
@@ -110,6 +119,7 @@ function CheckBoxGroup({
                 {checkBoxItems.map((item, index) => {
                     return (
                         <CheckBox
+                            isResearcher={isResearcher}
                             key={index}
                             item={item}
                             index={index}
@@ -121,15 +131,20 @@ function CheckBoxGroup({
                 })}
                 <a
                     onClick={addOption}
-                    className={`inline sm:hidden bg-gray-100 p-2 xs:text-sm rounded-md ${themeTextClass} cursor-pointer font-normal`}
+                    className={`sm:hidden ${
+                        isResearcher() === true ? "inline" : "hidden"
+                    } bg-gray-100 p-2 xs:text-sm rounded-md ${themeTextClass} cursor-pointer font-normal`}
                 >
                     <AddIcon /> <span>option</span>
                 </a>
             </div>
 
-            <hr />
+            <hr hidden={isResearcher() === false} />
 
-            <div className="mt-5 sm:mt-3 text-right">
+            <div
+                className="mt-5 sm:mt-3 text-right"
+                hidden={isResearcher() === false}
+            >
                 <a
                     onClick={addOption}
                     className={`sm:inline hidden bg-gray-100 p-2 xs:text-sm rounded-md mx-2 ${themeTextClass} cursor-pointer font-normal`}

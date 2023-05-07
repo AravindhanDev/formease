@@ -11,6 +11,7 @@ interface RadioButtonProps {
     handleChange: (event: ChangeEvent<HTMLInputElement>, index: number) => void
     id: number
     deleteItem: (id: number) => void
+    isResearcher: () => boolean
 }
 
 function RadioButton({
@@ -18,7 +19,8 @@ function RadioButton({
     handleChange,
     index,
     id,
-    deleteItem
+    deleteItem,
+    isResearcher
 }: RadioButtonProps) {
     const currentTheme = useTheme()
     const [themeAccentClass, setThemeAccentClass] =
@@ -56,9 +58,12 @@ function RadioButton({
                 type="text"
                 value={item}
                 onChange={(event) => handleChange(event, id)}
-                className="text-gray-700 mx-5 w-5/6 border-transparent border-b-2 focus:border-b-2 hover:border-gray-200  transition-colors duration-300 focus:outline-none"
+                disabled={isResearcher() === false}
+                className={`text-gray-700 mx-5 w-5/6 disabled:bg-white border-transparent border-b-2 focus:border-b-2 ${
+                    isResearcher() && "hover:border-gray-200"
+                }   transition-colors duration-300 focus:outline-none`}
             />
-            <div className="cursor-pointer">
+            <div className="cursor-pointer" hidden={isResearcher() === false}>
                 <CloseIcon
                     className="text-gray-500"
                     onClick={() => deleteItem(id)}

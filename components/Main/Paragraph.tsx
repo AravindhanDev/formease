@@ -7,6 +7,7 @@ import { ReducerContext } from "../FormStateProvider"
 import { useTheme } from "../ThemeProvider"
 import { setCurrentTheme } from "../utility/themeValidation"
 import RenderSwitch from "../switches/RenderSwitch"
+import Cookie from "js-cookie"
 
 interface ParagraphProps {
     index: string
@@ -21,6 +22,14 @@ function Paragraph({ index, value, required, deleteQuestion }: ParagraphProps) {
     const currentTheme = useTheme()
     const [, setThemeTextClass] = useState("text-purple-700")
     const [, setThemeBorderClass] = useState("border-purple-700")
+    function isResearcher() {
+        let auth = Cookie.get("auth")
+        if (auth !== undefined) {
+            return true
+        } else {
+            return false
+        }
+    }
 
     useEffect(() => {
         setCurrentTheme({
@@ -57,6 +66,7 @@ function Paragraph({ index, value, required, deleteQuestion }: ParagraphProps) {
         <SideBoxLayout>
             <div>
                 <InputVariant1
+                    disabled={isResearcher() === false}
                     index={index}
                     value={value}
                     type="text"
@@ -76,7 +86,7 @@ function Paragraph({ index, value, required, deleteQuestion }: ParagraphProps) {
                 ></TextArea>
             </div>
 
-            <div className="text-right">
+            <div className="text-right" hidden={isResearcher() === false}>
                 <span
                     className="cursor-pointer border-r-4 px-2"
                     onClick={() => deleteQuestion(index)}

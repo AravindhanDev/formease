@@ -5,6 +5,7 @@ interface InputProps {
     value: string
     type: string
     placeholder: string
+    disabled: boolean
 }
 
 function useDebounce(value: string, delay: number) {
@@ -23,7 +24,13 @@ function useDebounce(value: string, delay: number) {
     return debouncedValue
 }
 
-function InputVariant1({ value, index, type, placeholder }: InputProps) {
+function InputVariant1({
+    value,
+    index,
+    type,
+    placeholder,
+    disabled
+}: InputProps) {
     const [question, setQuestion] = useState(value)
     const debouncedQuestion = useDebounce(question, 500)
 
@@ -55,8 +62,9 @@ function InputVariant1({ value, index, type, placeholder }: InputProps) {
             onChange={handleChange}
             value={question}
             type={type}
+            disabled={disabled}
             placeholder={placeholder}
-            className="mb-4 focus:bg-purple-100 font-medium focus:font-normal text-md focus:border-b-2 focus:p-3 border-gray-300 w-full focus:outline-none transition-colors duration-500"
+            className="mb-4 focus:bg-purple-100 disabled:bg-white font-medium focus:font-normal text-md focus:border-b-2 focus:p-3 border-gray-300 w-full focus:outline-none transition-colors duration-500"
         />
     )
 }

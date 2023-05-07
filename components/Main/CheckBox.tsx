@@ -1,10 +1,4 @@
-import {
-    ChangeEvent,
-    Dispatch,
-    SetStateAction,
-    useEffect,
-    useState
-} from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 import CloseIcon from "@mui/icons-material/Close"
 import { useTheme } from "../ThemeProvider"
 import { setCurrentTheme } from "../utility/themeValidation"
@@ -15,9 +9,16 @@ interface CheckBoxProps {
     index: number
     deleteItem: (id: number) => void
     checkBoxItems: string[]
+    isResearcher: () => boolean
 }
 
-function CheckBox({ item, handleChange, index, deleteItem }: CheckBoxProps) {
+function CheckBox({
+    item,
+    handleChange,
+    index,
+    deleteItem,
+    isResearcher
+}: CheckBoxProps) {
     const currentTheme = useTheme()
     const [themeAccentClass, setThemeAccentClass] =
         useState("accent-purple-700")
@@ -40,10 +41,13 @@ function CheckBox({ item, handleChange, index, deleteItem }: CheckBoxProps) {
             <input
                 type="text"
                 value={item}
+                disabled={isResearcher() === false}
                 onChange={(event) => handleChange(event, index)}
-                className={`mx-5 hover:border-gray-300 border-transparent w-5/6 border-b-2 focus:border-b-2 transition-colors duration-300 focus:outline-none !important`}
+                className={`mx-5 ${
+                    isResearcher() && "hover:border-gray-200"
+                }  border-transparent w-5/6 border-b-2 disabled:bg-white focus:border-b-2 transition-colors duration-300 focus:outline-none !important`}
             />
-            <div className="cursor-pointer">
+            <div className="cursor-pointer" hidden={isResearcher() === false}>
                 <CloseIcon
                     className="text-gray-500"
                     onClick={() => deleteItem(index)}
