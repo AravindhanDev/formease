@@ -1,4 +1,5 @@
 import { ChangeEvent, useState } from "react"
+import { useEffect } from "react"
 
 interface TextAreaProps {
     placeholder: string
@@ -13,11 +14,16 @@ function TextArea({
     handleChange,
     disabled
 }: TextAreaProps) {
+    const [isDisabled, setDisabled] = useState(false)
     const [isFocused, setFocused] = useState<boolean>(false)
+
+    useEffect(() => {
+        setDisabled(disabled)
+    }, [disabled])
 
     return (
         <textarea
-            disabled={disabled}
+            disabled={isDisabled}
             rows={isFocused ? 3 : 1}
             onFocus={() => setFocused(true)}
             onBlur={() => setFocused(false)}

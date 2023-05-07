@@ -1,19 +1,20 @@
-import Input from "../Input"
-import TextArea from "../TextArea"
-import { TopBoxLayout } from "./BoxLayout"
-import { ChangeEvent } from "react"
+import Input from "./Input"
+import TextArea from "./TextArea"
+import { TopBoxLayout } from "./Main/BoxLayout"
+import { ChangeEvent, useState } from "react"
+import Cookies from "js-cookie"
 
-type HeaderProps = {
+export type HeaderProps = {
     headerDetails: any
     setHeaderDetails: any
     isResearcher: boolean
 }
 
-function Header({
-    headerDetails,
-    setHeaderDetails,
-    isResearcher
-}: HeaderProps) {
+function Header({ headerDetails, setHeaderDetails }: HeaderProps) {
+    const [isDisabled, setDisabled] = useState(() => {
+        return Cookies.get("auth") === undefined
+    })
+
     function setTitle(event: ChangeEvent<HTMLInputElement>) {
         setHeaderDetails((prevDetails: any) => {
             return {
@@ -35,7 +36,7 @@ function Header({
     return (
         <TopBoxLayout>
             <Input
-                disabled={isResearcher === false}
+                disabled={isDisabled}
                 type="text"
                 value={headerDetails.title}
                 placeholder="Form title"
@@ -43,7 +44,7 @@ function Header({
                 handleChange={setTitle}
             />
             <TextArea
-                disabled={isResearcher === false}
+                disabled={isDisabled}
                 handleChange={setDescription}
                 value={headerDetails.description}
                 placeholder="Form Description"

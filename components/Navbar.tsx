@@ -2,11 +2,12 @@ import { useState, useEffect } from "react"
 import PollIcon from "@mui/icons-material/Poll"
 import ColorLensOutlinedIcon from "@mui/icons-material/ColorLensOutlined"
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded"
-import Button from "../Button"
+import Button from "./Button"
 import InputOption from "@/pages/forms/InputOption"
-import { setCurrentTheme } from "../utility/themeValidation"
-import { useTheme } from "../ThemeProvider"
-import ColorBox from "../ColorBox"
+import { setCurrentTheme } from "./utility/themeValidation"
+import { useTheme } from "./ThemeProvider"
+import ColorBox from "./ColorBox"
+import Cookies from "js-cookie"
 
 type NavbarProps = {
     title: string
@@ -14,7 +15,7 @@ type NavbarProps = {
     isResearcher: boolean
 }
 
-function Navbar({ title, setQuestions, isResearcher }: NavbarProps) {
+function Navbar({ title, setQuestions }: NavbarProps) {
     const [current, setCurrent] = useState<number>(1)
     const [inputOption, setInputOption] = useState<boolean>(false)
     const [colorBox, setColorBox] = useState<boolean>(false)
@@ -25,8 +26,9 @@ function Navbar({ title, setQuestions, isResearcher }: NavbarProps) {
     const [researcher, setResearcher] = useState(false)
 
     useEffect(() => {
-        setResearcher(isResearcher)
-    }, [isResearcher])
+        let value = typeof Cookies.get("auth") === "string"
+        setResearcher(value)
+    }, [])
 
     useEffect(() => {
         setCurrentTheme({
@@ -38,8 +40,12 @@ function Navbar({ title, setQuestions, isResearcher }: NavbarProps) {
 
     return (
         <nav className="bg-white shadow-sm">
-            <div className="p-4 flex justify-between">
-                <div className="left text-3xl flex items-center sm:block xs:hidden">
+            <div className="p-4 justify-between flex">
+                <div
+                    className={`left text-3xl items-center sm:block ${
+                        researcher ? "xs:hidden" : ""
+                    }`}
+                >
                     <span>
                         <PollIcon className={`text-4xl ${themeTextClass}`} />
                     </span>
@@ -47,7 +53,7 @@ function Navbar({ title, setQuestions, isResearcher }: NavbarProps) {
                         {title === "" ? "Untitled Form" : title}
                     </span>
                 </div>
-                <div hidden={researcher === false}>
+                <div style={{ display: researcher ? "block" : "none" }}>
                     {inputOption && <InputOption setQuestions={setQuestions} />}
                     {colorBox && <ColorBox />}
                     <span
@@ -70,7 +76,10 @@ function Navbar({ title, setQuestions, isResearcher }: NavbarProps) {
                 </div>
             </div>
 
-            <div className="flex justify-center">
+            <div
+                className="justify-center"
+                style={{ display: researcher ? "flex" : "none" }}
+            >
                 <div
                     className={`text-sm ${
                         current === 1 && "border-b-4"

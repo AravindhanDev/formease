@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react"
-import Header from "@/components/Main/Header"
-import Navbar from "@/components/Main/Navbar"
+import Header from "@/components/Header"
+import Navbar from "@/components/Navbar"
 import { checkState } from "@/components/utility/changeBg"
 import { useTheme } from "@/components/ThemeProvider"
 import MainForm from "@/components/Main/MainForm"

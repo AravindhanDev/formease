@@ -5,85 +5,107 @@ function ColorBox() {
 
     return (
         <div className="absolute sm:right-28 w-64 top-12 bg-white xs:p-5 rounded shadow-lg">
-            <p className="font-semibold mb-3">Color</p>
+            <p className="mb-3 font-medium">Pick a color</p>
             <div className="flex gap-2 flex-wrap">
                 <div
-                    className="cursor-pointer w-6 h-6 bg-purple-500 rounded-full"
+                    className="cursor-pointer text-white px-3 py-1 rounded font-medium bg-purple-500"
                     onMouseDown={(event) => {
                         event?.stopPropagation()
                         toggleTheme("purple")
                     }}
-                ></div>
+                >
+                    #Purple
+                </div>
                 <div
-                    className="cursor-pointer w-6 h-6 bg-blue-500 rounded-full"
+                    className="text-white rounded px-4 py-1 cursor-pointe bg-blue-500"
                     onMouseDown={(event) => {
                         event?.stopPropagation()
                         toggleTheme("blue")
                     }}
-                ></div>
+                >
+                    #Blue
+                </div>
                 <div
-                    className="cursor-pointer w-6 h-6 bg-orange-500 rounded-full"
+                    className="text-white rounded px-4 py-1 cursor-pointer bg-orange-500"
                     onMouseDown={(event) => {
                         event?.stopPropagation()
                         toggleTheme("orange")
                     }}
-                ></div>
+                >
+                    #Orange
+                </div>
                 <div
-                    className="cursor-pointer w-6 h-6 bg-yellow-500 rounded-full"
+                    className="cursor-pointer text-white rounded px-4 py-1 bg-yellow-500"
                     onMouseDown={(event) => {
                         event?.stopPropagation()
                         toggleTheme("yellow")
                     }}
-                ></div>
+                >
+                    #Yellow
+                </div>
                 <div
-                    className="cursor-pointer w-6 h-6 bg-pink-500 rounded-full"
+                    className="text-white rounded px-4 py-1 cursor-pointer bg-pink-500"
                     onMouseDown={(event) => {
                         event?.stopPropagation()
                         toggleTheme("pink")
                     }}
-                ></div>
+                >
+                    #Pink
+                </div>
                 <div
-                    className="cursor-pointer w-6 h-6 bg-green-500 rounded-full"
+                    className="text-white rounded px-4 py-1 cursor-pointer bg-green-500"
                     onMouseDown={(event) => {
                         event?.stopPropagation()
                         toggleTheme("green")
                     }}
-                ></div>
+                >
+                    #Green
+                </div>
                 <div
-                    className="cursor-pointer w-6 h-6 bg-gray-500 rounded-full"
+                    className="text-white rounded px-4 py-1 cursor-pointer bg-gray-500"
                     onMouseDown={(event) => {
                         event?.stopPropagation()
                         toggleTheme("gray")
                     }}
-                ></div>
+                >
+                    #Gray
+                </div>
                 <div
-                    className="cursor-pointer w-6 h-6 bg-red-500 rounded-full"
+                    className="text-white rounded px-4 py-1 cursor-pointer bg-red-500"
                     onMouseDown={(event) => {
                         event?.stopPropagation()
                         toggleTheme("red")
                     }}
-                ></div>
+                >
+                    #Red
+                </div>
                 <div
-                    className="cursor-pointer w-6 h-6 bg-indigo-500 rounded-full"
+                    className="text-white rounded px-4 py-1 cursor-pointer bg-indigo-500"
                     onMouseDown={(event) => {
                         event?.stopPropagation()
                         toggleTheme("indigo")
                     }}
-                ></div>
+                >
+                    #Indigo
+                </div>
                 <div
-                    className="cursor-pointer w-6 h-6 bg-teal-500 rounded-full"
+                    className="text-white rounded px-4 py-1 cursor-pointer bg-teal-500"
                     onMouseDown={(event) => {
                         event?.stopPropagation()
                         toggleTheme("teal")
                     }}
-                ></div>
+                >
+                    #Teal
+                </div>
                 <div
-                    className="cursor-pointer w-6 h-6 bg-cyan-500 rounded-full"
+                    className="text-white rounded px-4 py-1 cursor-pointer bg-cyan-500"
                     onMouseDown={(event) => {
                         event?.stopPropagation()
                         toggleTheme("cyan")
                     }}
-                ></div>
+                >
+                    #Cyan
+                </div>
             </div>
         </div>
     )
